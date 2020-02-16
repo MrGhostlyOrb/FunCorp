@@ -5,10 +5,7 @@ public abstract class Attraction {
     private String name;
     private int basePrice;
 
-    public int getOffPeakPrice(){
-        int price = 0;
-        return price;
-    }
+    public abstract int getOffPeakPrice();
 
     public String getName(){
         return name;
