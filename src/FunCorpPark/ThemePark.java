@@ -14,16 +14,16 @@ public class ThemePark {
         this.customers = customers;
     }
 
-    public float calculateTotalTransportDistance(){
-
+    public double calculateTotalTransportDistance(){
+        return 0.0;
     }
 
-    public float calculateAverageGentleCapacity(){
-
+    public double calculateAverageGentleCapacity(){
+        return 0.0;
     }
 
-    public float calculateAverageCoasterSpeed(){
-
+    public double calculateAverageCoasterSpeed(){
+        return 0.0;
     }
 
 }
