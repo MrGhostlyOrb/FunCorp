@@ -6,9 +6,9 @@ public class Customer {
     private int accountNumber;
     private int age;
     private int accountBalance;
-    private int personalDiscount;
+    private String personalDiscount;
 
-    public Customer(String name, int accountNumber, int age, int accountBalance, int personalDiscount){
+    public Customer(String name, int accountNumber, int age, int accountBalance, String personalDiscount){
         this.name = name;
         this.accountNumber = accountNumber;
         this.age = age;
@@ -22,8 +22,7 @@ public class Customer {
         String accountNumberString = Integer.toString(accountNumber);
         String ageString = Integer.toString(age);
         String accountBalanceString = Integer.toString(accountBalance);
-        String personalDiscountString = Integer.toString(personalDiscount);
-        String out = name + " " + accountNumberString + " " + ageString + " " + accountBalanceString + " " + personalDiscountString;
+        String out = name + " " + accountNumberString + " " + ageString + " " + accountBalanceString + " " + personalDiscount;
         return out;
     }
 
@@ -37,12 +36,12 @@ public class Customer {
     }
 
     public String getAvailableDiscountInformation(){
-        String info = "Discount available is : " + Integer.toString(personalDiscount);
+        String info = "Discount available is : " + personalDiscount;
         return info;
     }
 
     public static void main(String[] args) {
-        Customer cus1 = new Customer("John", 1, 21, 0, 0);
+        Customer cus1 = new Customer("John", 1, 21, 0, "none");
         cus1.addFunds(10);
         System.out.println(cus1.toString());
         System.out.println(cus1.getAvailableDiscountInformation());
