@@ -126,22 +126,18 @@ public class Simulation {
                 String item = scanner.next();
                 itemList.add(item);
             }
-            if(itemList.get(0).equals("USE_ATTRACTION")){
-                if(itemList.get(1).equals("STANDARD_PRICE")){
+            if (itemList.get(0).equals("USE_ATTRACTION")) {
+                if (itemList.get(1).equals("STANDARD_PRICE")) {
                     //Find customer, determine ride type and apply reduction to funds
                 }
-            }
-            else if(itemList.get(0).equals("ADD_FUNDS")){
+            } else if (itemList.get(0).equals("ADD_FUNDS")) {
                 //Find customer and run add funds with amount
-            }
-            else if(itemList.get(0).equals("NEW_CUSTOMER")){
+            } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
                 //Create a new customer object and add it to the park
-            }
-            else{
+            } else {
                 //TODO Create ActionNotFoundException
                 //throw new ActionNotFoundException();
             }
-
 
 
         }
