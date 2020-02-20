@@ -8,67 +8,64 @@ import java.util.Scanner;
 public class Simulation {
 
     public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
-        //TODO Fix non Static - Static reference issue
-        //ThemePark park = createThemePark();
-        //simulate(park);
-    }
-
-
-    //Should return ThemePark type
-    public ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
         ArrayList<Attraction> attractions = readAttractions();
         ArrayList<Customer> customers = readCustomers();
 
         ThemePark park = new ThemePark("park", attractions, customers);
-        return park;
+        System.out.println("Theme Park Created");
+        System.out.println("Simulation about to begin");
+        simulate(park);
 
     }
 
-    public void simulate(ThemePark park) throws FileNotFoundException {
+    public static void simulate(ThemePark park) throws FileNotFoundException {
         readTransactions(park);
     }
 
-    public ArrayList<String> readFile(String fileName) throws FileNotFoundException {
+    public static ArrayList<String> readFile(String fileName) throws FileNotFoundException {
         ArrayList<String> lines = new ArrayList<String>();
         File file = new File(fileName);
         Scanner line = new Scanner(file);
         line.useDelimiter(System.lineSeparator());
-        while(line.hasNext()){
+        while (line.hasNext()) {
             String lineInfo = line.next();
             lines.add(lineInfo);
         }
         return lines;
     }
 
-    public ArrayList<Attraction> readAttractions() throws FileNotFoundException, AttractionNotFoundException {
+    public static ArrayList<Attraction> readAttractions() throws FileNotFoundException, AttractionNotFoundException {
         ArrayList<Attraction> att = new ArrayList<Attraction>();
 
-        ArrayList<String> list = readFile("attractions.txt");
-        for(int i = 0; i < list.size(); i++){
+        ArrayList<String> list = readFile("src/attractions.txt");
+        for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter("@");
             ArrayList<String> itemList = new ArrayList<String>();
-            while (scanner.hasNext()){
+            while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
             }
-            if(itemList.get(2).equals("ROL")){
-                Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Double.parseDouble(itemList.get(3)));
-                att.add(rol);
-            }
-            else if(itemList.get(2).equals("GEN")){
-                Attraction gen = new GentleAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                att.add(gen);
-            }
-            else if(itemList.get(2).equals("TRA")){
-                Attraction tra = new TransportAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                att.add(tra);
-            }
-            else{
-                throw new AttractionNotFoundException();
-            }
+            try {
+                if (itemList.get(2).equals("ROL")) {
+                    Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Double.parseDouble(itemList.get(3)));
+                    att.add(rol);
+                } else if (itemList.get(2).equals("GEN")) {
+                    Attraction gen = new GentleAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                    att.add(gen);
+                } else if (itemList.get(2).equals("TRA")) {
+                    Attraction tra = new TransportAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                    System.out.println("got here");
+                    att.add(tra);
+                } else {
+                    System.out.println("Not Found");
+                    throw new AttractionNotFoundException();
 
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            }
 
 
         }
@@ -76,35 +73,41 @@ public class Simulation {
         return att;
     }
 
-    public ArrayList<Customer> readCustomers() throws FileNotFoundException, CustomerNotFoundException {
+    public static ArrayList<Customer> readCustomers() throws FileNotFoundException, CustomerNotFoundException {
         ArrayList<Customer> cus = new ArrayList<Customer>();
 
-        ArrayList<String> list = readFile("customers.txt");
-        for(int i = 0; i < list.size(); i++){
+        ArrayList<String> list = readFile("src/customers.txt");
+        for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter("#");
             ArrayList<String> itemList = new ArrayList<String>();
-            while (scanner.hasNext()){
+            while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
             }
-            if(itemList.get(4).equals("FAMILY")){
-                Customer fam = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
-                cus.add(fam);
-            }
-            else if(itemList.get(4).equals("STUDENT")){
-                Customer stu = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
-                cus.add(stu);
-            }
-            else if(itemList.get(4).isEmpty()){
-                Customer none = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), "None");
-                cus.add(none);
-            }
-            else{
-                throw new CustomerNotFoundException();
-            }
 
+            try {
+                if (itemList.get(4).length() < 2) {
+                    Customer none = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), "None");
+                    System.out.println("Added " + cus.toString());
+                    cus.add(none);
+                } else if (itemList.get(4).substring(0, 6).equals("FAMILY")) {
+
+
+                    Customer fam = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    System.out.println("Added " + fam.toString());
+                    cus.add(fam);
+                } else if (itemList.get(4).substring(0, 7).equals("STUDENT")) {
+                    Customer stu = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    System.out.println("Added " + stu.toString());
+                    cus.add(stu);
+                } else {
+                    throw new CustomerNotFoundException();
+                }
+            } catch (CustomerNotFoundException e) {
+                System.out.println(e);
+            }
 
 
         }
@@ -112,14 +115,14 @@ public class Simulation {
         return cus;
     }
 
-    public void readTransactions(ThemePark park) throws FileNotFoundException {
+    public static void readTransactions(ThemePark park) throws FileNotFoundException {
         ArrayList<String> list = readFile("transactions.txt");
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter(",");
             ArrayList<String> itemList = new ArrayList<String>();
-            while (scanner.hasNext()){
+            while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
             }
