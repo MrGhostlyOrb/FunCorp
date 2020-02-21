@@ -18,7 +18,7 @@ public class Simulation {
 
     }
 
-    public static void simulate(ThemePark park) throws FileNotFoundException {
+    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
         readTransactions(park);
     }
 
@@ -115,8 +115,8 @@ public class Simulation {
         return cus;
     }
 
-    public static void readTransactions(ThemePark park) throws FileNotFoundException {
-        ArrayList<String> list = readFile("transactions.txt");
+    public static void readTransactions(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
+        ArrayList<String> list = readFile("src/transactions.txt");
         for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
@@ -126,9 +126,27 @@ public class Simulation {
                 String item = scanner.next();
                 itemList.add(item);
             }
+            ArrayList<Customer> cusList = park.getCustomers();
             if (itemList.get(0).equals("USE_ATTRACTION")) {
                 if (itemList.get(1).equals("STANDARD_PRICE")) {
                     //Find customer, determine ride type and apply reduction to funds
+                    boolean found = false;
+                    while(!found){
+                        for(int j = 0; j < cusList.size(); j++){
+                            System.out.println(cusList.get(j).getAccountNumber() + " : " + itemList.get(2));
+                            if(cusList.get(j).getAccountNumber() == Integer.parseInt(itemList.get(2).substring(0,6))){
+                                System.out.println("Found Customer");
+                                String dis = cusList.get(j).getAvailableDiscountInformation();
+                                System.out.println("Customer Discount : " + dis);
+                                found = true;
+                                break;
+                            }
+                            else{
+                                continue;
+                            }
+                        }
+                    }
+
                 }
             } else if (itemList.get(0).equals("ADD_FUNDS")) {
                 //Find customer and run add funds with amount

@@ -47,4 +47,8 @@ public class Customer {
         System.out.println(cus1.getAvailableDiscountInformation());
     }
 
+    public int getAccountNumber(){
+        return accountNumber;
+    }
+
 }
