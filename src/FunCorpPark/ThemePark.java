@@ -15,7 +15,11 @@ public class ThemePark {
     }
 
     public ArrayList<Customer> getCustomers(){
-        return customers;
+        return this.customers;
+    }
+
+    public ArrayList<Attraction> getAttractions(){
+        return this.attractions;
     }
 
     public double calculateTotalTransportDistance(){

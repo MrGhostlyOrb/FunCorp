@@ -138,6 +138,10 @@ public class Simulation {
                                 System.out.println("Found Customer");
                                 String dis = cusList.get(j).getAvailableDiscountInformation();
                                 System.out.println("Customer Discount : " + dis);
+                                int ridePrice = determineRidePrice(itemList.get(3));
+                                if(park.getAttractions().contains(itemList.get(3))){
+
+                                }
                                 found = true;
                                 break;
                             }
