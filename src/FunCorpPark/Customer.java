@@ -3,12 +3,12 @@ package FunCorpPark;
 public class Customer {
 
     private String name;
-    private int accountNumber;
+    private String accountNumber;
     private int age;
     private int accountBalance;
     private String personalDiscount;
 
-    public Customer(String name, int accountNumber, int age, int accountBalance, String personalDiscount){
+    public Customer(String name, String accountNumber, int age, int accountBalance, String personalDiscount){
         this.name = name;
         this.accountNumber = accountNumber;
         this.age = age;
@@ -19,7 +19,7 @@ public class Customer {
     @Override
 
     public String toString(){
-        String accountNumberString = Integer.toString(accountNumber);
+        String accountNumberString = accountNumber;
         String ageString = Integer.toString(age);
         String accountBalanceString = Integer.toString(accountBalance);
         String out = name + " " + accountNumberString + " " + ageString + " " + accountBalanceString + " " + personalDiscount;
@@ -41,13 +41,13 @@ public class Customer {
     }
 
     public static void main(String[] args) {
-        Customer cus1 = new Customer("John", 1, 21, 0, "none");
+        Customer cus1 = new Customer("John", "1", 21, 0, "none");
         cus1.addFunds(10);
         System.out.println(cus1.toString());
         System.out.println(cus1.getAvailableDiscountInformation());
     }
 
-    public int getAccountNumber(){
+    public String getAccountNumber(){
         return accountNumber;
     }
 

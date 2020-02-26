@@ -14,6 +14,14 @@ public class GentleAttraction extends Attraction {
         this.noPeople = noPeople;
     }
 
+    public int getNoPeople(){
+        return this.noPeople;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
     @Override
     public int getOffPeakPrice() {
         return 0;

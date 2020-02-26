@@ -22,16 +22,41 @@ public class ThemePark {
         return this.attractions;
     }
 
-    public double calculateTotalTransportDistance(){
-        return 0.0;
+    public int calculateTotalTransportDistance() throws NoSuchFieldException {
+        int totalDist = 0;
+        for(int i = 0; i < attractions.size(); i++){
+            if(attractions.get(i).getType().equals("TRA")){
+                TransportAttraction attr = (TransportAttraction) attractions.get(i);
+                totalDist = totalDist + attr.getDistance();
+            }
+        }
+        return totalDist;
     }
 
     public double calculateAverageGentleCapacity(){
-        return 0.0;
+        double totalCapacity = 0;
+        int count = 0;
+        for(int i = 0; i < attractions.size(); i++){
+            if(attractions.get(i).getType().equals("GEN")){
+                GentleAttraction attr = (GentleAttraction) attractions.get(i);
+                totalCapacity = totalCapacity + attr.getNoPeople();
+                count++;
+            }
+        }
+        return totalCapacity / count;
     }
 
-    public double calculateAverageCoasterSpeed(){
-        return 0.0;
+    public double calculateMedianCoasterSpeed(){ //TODO Median
+        double avgSpeed = 0;
+        int count = 0;
+        for(int i = 0; i < attractions.size(); i++){
+            if(attractions.get(i).getType().equals("ROL")){
+                RollerCoaster attr = (RollerCoaster) attractions.get(i);
+                avgSpeed = avgSpeed + attr.getSpeed();
+                count++;
+            }
+        }
+        return avgSpeed/count;
     }
 
 }

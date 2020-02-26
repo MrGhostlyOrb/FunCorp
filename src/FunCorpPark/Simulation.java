@@ -7,15 +7,28 @@ import java.util.Scanner;
 
 public class Simulation {
 
-    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException, NoSuchFieldException {
+
+        ThemePark park = createThemePark();
+
+        System.out.println(park.calculateTotalTransportDistance());
+        System.out.println(park.calculateAverageGentleCapacity());
+        System.out.println(park.calculateMedianCoasterSpeed());
+
+        simulate(park);
+
+    }
+
+    public static ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
         ArrayList<Attraction> attractions = readAttractions();
         ArrayList<Customer> customers = readCustomers();
 
         ThemePark park = new ThemePark("park", attractions, customers);
         System.out.println("Theme Park Created");
         System.out.println("Simulation about to begin");
-        simulate(park);
 
+
+        return park;
     }
 
     public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
@@ -49,7 +62,7 @@ public class Simulation {
             }
             try {
                 if (itemList.get(2).equals("ROL")) {
-                    Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Double.parseDouble(itemList.get(3)));
+                    Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
                     att.add(rol);
                 } else if (itemList.get(2).equals("GEN")) {
                     Attraction gen = new GentleAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
@@ -88,18 +101,18 @@ public class Simulation {
             }
 
             try {
-                if (itemList.get(4).length() < 2) {
-                    Customer none = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), "None");
-                    System.out.println("Added " + cus.toString());
+                if (itemList.size() < 5) {
+                    Customer none = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), "None");
+                    System.out.println("Added " + none.toString());
                     cus.add(none);
                 } else if (itemList.get(4).substring(0, 6).equals("FAMILY")) {
 
 
-                    Customer fam = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    Customer fam = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
                     System.out.println("Added " + fam.toString());
                     cus.add(fam);
                 } else if (itemList.get(4).substring(0, 7).equals("STUDENT")) {
-                    Customer stu = new Customer(itemList.get(1), Integer.parseInt(itemList.get(0)), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    Customer stu = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
                     System.out.println("Added " + stu.toString());
                     cus.add(stu);
                 } else {
@@ -111,7 +124,6 @@ public class Simulation {
 
 
         }
-        System.out.println(cus.toString());
         return cus;
     }
 
@@ -127,21 +139,30 @@ public class Simulation {
                 itemList.add(item);
             }
             ArrayList<Customer> cusList = park.getCustomers();
+
+
+
+        //Functions to break up transactions
+        //public int determineRidePrice(){
+
+           // }
+        //public String determineDiscount(ArrayList<Customer> cusList){}
+
+
             if (itemList.get(0).equals("USE_ATTRACTION")) {
                 if (itemList.get(1).equals("STANDARD_PRICE")) {
                     //Find customer, determine ride type and apply reduction to funds
                     boolean found = false;
                     while(!found){
                         for(int j = 0; j < cusList.size(); j++){
-                            System.out.println(cusList.get(j).getAccountNumber() + " : " + itemList.get(2));
-                            if(cusList.get(j).getAccountNumber() == Integer.parseInt(itemList.get(2).substring(0,6))){
+                            if(cusList.get(j).getAccountNumber().equals(itemList.get(2).substring(0, 6))){
                                 System.out.println("Found Customer");
                                 String dis = cusList.get(j).getAvailableDiscountInformation();
                                 System.out.println("Customer Discount : " + dis);
-                                int ridePrice = determineRidePrice(itemList.get(3));
-                                if(park.getAttractions().contains(itemList.get(3))){
+                                //int ridePrice = determineRidePrice(itemList.get(3));
+                                //if(park.getAttractions().contains(itemList.get(3))){
 
-                                }
+                                //}
                                 found = true;
                                 break;
                             }

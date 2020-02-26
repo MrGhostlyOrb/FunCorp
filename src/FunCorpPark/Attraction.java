@@ -4,11 +4,16 @@ public abstract class Attraction {
 
     private String name;
     private int basePrice;
+    private String type;
 
     public abstract int getOffPeakPrice();
 
     public String getName(){
         return name;
+    }
+
+    public String getType(){
+        return this.type;
     }
 
     public int getBasePrice(){

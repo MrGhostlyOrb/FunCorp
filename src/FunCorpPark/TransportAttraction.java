@@ -8,12 +8,19 @@ public class TransportAttraction extends Attraction {
     private int distance;
 
     public TransportAttraction(String name, int basePrice, String type, int distance){
-
         this.name = name;
         this.basePrice = basePrice;
         this.type = type;
         this.distance = distance;
 
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public String getType(){
+        return this.type;
     }
 
     @Override

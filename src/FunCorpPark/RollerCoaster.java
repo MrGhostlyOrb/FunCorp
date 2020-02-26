@@ -4,13 +4,27 @@ public class RollerCoaster extends Attraction {
     private String name;
     private int basePrice;
     private String type;
+    private int minAge;
     private double speed;
 
-    public RollerCoaster(String name, int basePrice, String type, double speed){
+    public RollerCoaster(String name, int basePrice, String type, int minAge, double topSpeed){
         this.name = name;
         this.basePrice = basePrice;
         this.type = type;
-        this.speed = speed;
+        this.minAge = minAge;
+        this.speed = topSpeed;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
+    public double getSpeed(){
+        return this.speed;
     }
 
     @Override
@@ -25,7 +39,7 @@ public class RollerCoaster extends Attraction {
     }
 
     public static void main(String[] args) {
-        RollerCoaster rol1 = new RollerCoaster("Rol1", 100, "ROL", 12.3);
+        RollerCoaster rol1 = new RollerCoaster("Rol1", 100, "ROL", 12, 12.3);
         System.out.println(rol1.toString());
     }
 
