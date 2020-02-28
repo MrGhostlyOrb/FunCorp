@@ -102,17 +102,17 @@ public class Simulation {
 
             try {
                 if (itemList.size() < 5) {
-                    Customer none = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), "None");
+                    Customer none = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.NONE);
                     System.out.println("Added " + none.toString());
                     cus.add(none);
                 } else if (itemList.get(4).substring(0, 6).equals("FAMILY")) {
 
 
-                    Customer fam = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    Customer fam = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.valueOf(itemList.get(4)));
                     System.out.println("Added " + fam.toString());
                     cus.add(fam);
                 } else if (itemList.get(4).substring(0, 7).equals("STUDENT")) {
-                    Customer stu = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), itemList.get(4));
+                    Customer stu = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.valueOf(itemList.get(4)));
                     System.out.println("Added " + stu.toString());
                     cus.add(stu);
                 } else {
@@ -157,13 +157,24 @@ public class Simulation {
                         for(int j = 0; j < cusList.size(); j++){
                             if(cusList.get(j).getAccountNumber().equals(itemList.get(2).substring(0, 6))){
                                 System.out.println("Found Customer");
-                                String dis = cusList.get(j).getAvailableDiscountInformation();
-                                System.out.println("Customer Discount : " + dis);
+                                //String dis = cusList.get(j).getPersonalDiscount();
+                               // System.out.println("Customer Discount : " + dis);
                                 //int ridePrice = determineRidePrice(itemList.get(3));
                                 //if(park.getAttractions().contains(itemList.get(3))){
 
                                 //}
                                 found = true;
+
+                                int x = cusList.get(j).getPersonalDiscount().getI();
+                                System.out.println(x);
+
+                                //try{
+                                   // cusList.get(j).useAttraction(attr.getPrice * cusList.get(j).getPersonalDiscount().getI());
+                               // }
+                                //catch(Exception e){
+                                    //System.out.println(e);
+                                //}
+
                                 break;
                             }
                             else{
