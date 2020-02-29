@@ -26,4 +26,37 @@ public class GentleAttraction extends Attraction {
     public int getOffPeakPrice() {
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "Ride : " + name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    @Override
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setNoPeople(int noPeople) {
+        this.noPeople = noPeople;
+    }
 }

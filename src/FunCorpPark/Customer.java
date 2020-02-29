@@ -2,14 +2,42 @@ package FunCorpPark;
 
 public class Customer {
 
-    public enum personalDiscountEnum{STUDENT(10), FAMILY(15), NONE(0);
+    public String getName() {
+        return name;
+    }
 
-        private final int i;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        personalDiscountEnum(int i) {
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setPersonalDiscount(personalDiscountEnum personalDiscount) {
+        this.personalDiscount = personalDiscount;
+    }
+
+    public enum personalDiscountEnum{STUDENT(0.9), FAMILY(0.85), NONE(0);
+
+        private final double i;
+
+        personalDiscountEnum(double i) {
             this.i = i;
         }
-        public int getI(){
+        public double getI(){
             return i;
         }
     };
@@ -45,7 +73,7 @@ public class Customer {
     }
 
     public void useAttraction(int price){
-
+        accountBalance = accountBalance - price;
     }
 
     public static String getAvailableDiscountInformation(){

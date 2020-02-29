@@ -43,4 +43,34 @@ public class RollerCoaster extends Attraction {
         System.out.println(rol1.toString());
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    @Override
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
 }
