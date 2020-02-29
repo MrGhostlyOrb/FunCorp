@@ -59,4 +59,89 @@ public class ThemePark {
         return avgSpeed/count;
     }
 
+    public void addAttraction(Attraction newAttraction){
+        this.attractions.add(newAttraction);
+    }
+
+    public void addCustomer(Customer newCustomer){
+        this.customers.add(newCustomer);
+    }
+
+    public Customer getCustomer(String accountNumber) throws CustomerNotFoundException {
+
+        Customer foundCustomer = null;
+
+        for(int i = 0; i < customers.size(); i++){
+            try {
+
+                if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                    foundCustomer = customers.get(i);
+                } else {
+                    throw new CustomerNotFoundException();
+                }
+            }
+            catch (CustomerNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, customer could not be found");
+            }
+        }
+        return foundCustomer;
+    }
+
+    public void removeCustomer(String accountNumber){
+
+        for(int i = 0; i < customers.size(); i++){
+            try {
+
+                if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                    customers.remove(i);
+                } else {
+                    throw new CustomerNotFoundException();
+                }
+            }
+            catch (CustomerNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, customer could not be found");
+            }
+        }
+    }
+
+    public Attraction getAttraction(String attractionName){
+        Attraction foundAttraction = null;
+
+        for(int i = 0; i < attractions.size(); i++){
+            try {
+
+                if (attractions.get(i).getName().equals(attractionName)) {
+                    foundAttraction = attractions.get(i);
+                } else {
+                    throw new AttractionNotFoundException();
+                }
+            }
+            catch (AttractionNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, attraction could not be found");
+            }
+        }
+        return foundAttraction;
+    }
+
+    public void removeAttraction(String attractionName){
+
+        for(int i = 0; i < attractions.size(); i++){
+            try {
+
+                if (attractions.get(i).getName().equals(attractionName)) {
+                    attractions.remove(i);
+                } else {
+                    throw new AttractionNotFoundException();
+                }
+            }
+            catch (AttractionNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, attraction could not be found");
+            }
+        }
+    }
+
 }

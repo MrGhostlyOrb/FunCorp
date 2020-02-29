@@ -25,7 +25,7 @@ public class TransportAttraction extends Attraction {
 
     @Override
     public int getOffPeakPrice() {
-        return 0;
+        return (int) (basePrice * 0.5);
     }
 
     @Override

@@ -139,89 +139,35 @@ public class Simulation {
                 String item = scanner.next();
                 itemList.add(item);
             }
-            ArrayList<Customer> cusList = park.getCustomers();
 
 
+            try {
+                if (itemList.get(0).equals("USE_ATTRACTION")) {
 
-        //Functions to break up transactions
-        //public int determineRidePrice(){
+                    Customer currentCustomer = park.getCustomer(itemList.get(2));
+                    Attraction currentAttraction = park.getAttraction(itemList.get(3));
 
-           // }
-        //public String determineDiscount(ArrayList<Customer> cusList){}
-
-
-            if (itemList.get(0).equals("USE_ATTRACTION")) {
-                if (itemList.get(1).equals("STANDARD_PRICE")) {
-                    //Find customer, determine ride type and apply reduction to funds
-                    boolean found = false;
-                    while(!found){
-                        for(int j = 0; j < cusList.size(); j++){
-                            if(cusList.get(j).getAccountNumber().equals(itemList.get(2).substring(0, 6))){
-                                System.out.println("Found Customer" + cusList.get(j).toString());
-                                //String dis = cusList.get(j).getPersonalDiscount();
-                               // System.out.println("Customer Discount : " + dis);
-                                //int ridePrice = determineRidePrice(itemList.get(3));
-
-                                found = true;
-
-                                System.out.println("Finding attraction to ride");
-
-                                Attraction attr = null;
-
-                                try {
-                                    for (int k = 0; k < park.getAttractions().size(); k++) {
-                                        System.out.println(itemList.get(3));
-                                        System.out.println(park.getAttractions().get(k).getName());
-                                        if (park.getAttractions().get(k).getName().equals(itemList.get(3)) || park.getAttractions().get(k).getName().equals(itemList.get(3).substring(0,itemList.get(3).length() - 2))) {
-                                            attr = park.getAttractions().get(k);
-                                        }
-                                    }
-                                    if(attr == null){
-                                        throw new RideNotFoundException(park.getAttractions(), itemList.get(3));
-                                    }
-
-                                }
-                                catch(RideNotFoundException e) {
-                                    System.out.println(e);
-                                    String itemList3 = e.checkAttrName(park.getAttractions(), itemList.get(3));
-                                    System.out.println(itemList3);
-
-
-
-                                }
-
-                                double x = cusList.get(j).getPersonalDiscount().getI();
-
-                                System.out.println("Ride to ride is : " + attr.toString());
-
-                                System.out.println("Applying Discount : " + x);
-
-
-
-                                try{
-                                    System.out.println("Account balance before ride : " + cusList.get(j).getAccountBalance());
-                                    System.out.println("Price of ride : " + attr.getBasePrice() * cusList.get(j).getPersonalDiscount().getI());
-                                    cusList.get(j).useAttraction(attr.getBasePrice());
-                                    System.out.println("Account balance after transaction : " + cusList.get(j).getAccountBalance());
-                                }
-                                catch(Exception e){
-                                    System.out.println(e);
-                                }
-
-                            }
-                        }
+                    if (itemList.get(1).equals("STANDARD_PRICE")) {
+                        //Find customer, determine ride type and apply reduction to funds
+                        currentCustomer.useAttraction(currentAttraction.getBasePrice());
+                    } else if (itemList.get(1).equals("OFF_PEAK")) {
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
                     }
+                } else if (itemList.get(0).equals("ADD_FUNDS")) {
+                    Customer currentCustomer = park.getCustomer(itemList.get(1));
+                    int amount = Integer.parseInt(itemList.get(2));
+                    currentCustomer.addFunds(amount);
+                } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
+                    //Create a new customer object and add it to the park
+                    park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(5)), Customer.personalDiscountEnum.valueOf(itemList.get(6))));
 
+                } else {
+                    throw new ActionNotFoundException();
                 }
-            } else if (itemList.get(0).equals("ADD_FUNDS")) {
-                //Find customer and run add funds with amount
-            } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
-                //Create a new customer object and add it to the park
-            } else {
-                //TODO Create ActionNotFoundException
-                //throw new ActionNotFoundException();
             }
-
+            catch (ActionNotFoundException e){
+                System.out.println(e);
+            }
 
         }
     }

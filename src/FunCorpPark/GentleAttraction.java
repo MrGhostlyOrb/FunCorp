@@ -24,7 +24,7 @@ public class GentleAttraction extends Attraction {
 
     @Override
     public int getOffPeakPrice() {
-        return 0;
+        return (int) (this.basePrice * 0.8);
     }
 
     @Override

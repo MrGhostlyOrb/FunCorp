@@ -29,7 +29,7 @@ public class RollerCoaster extends Attraction {
 
     @Override
     public int getOffPeakPrice() {
-        return 0;
+        return this.basePrice;
     }
 
     @Override

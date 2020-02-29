@@ -76,8 +76,18 @@ public class Customer {
         accountBalance = accountBalance - price;
     }
 
+    public void useAttraction(int price, int minimumAge) throws AgeRestrictionException {
+        if(this.age > minimumAge){
+            accountBalance = accountBalance - price;
+        }
+        else{
+            throw new AgeRestrictionException();
+        }
+    }
+
     public static String getAvailableDiscountInformation(){
-        String info = "Discount available is : ";
+        String info = "Discounts available are : Family - 15% and Student - 10%";
+        System.out.println(info);
         return info;
     }
 
