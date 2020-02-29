@@ -75,8 +75,11 @@ public class ThemePark {
             try {
 
                 if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                    System.out.println("Found customer");
                     foundCustomer = customers.get(i);
-                } else {
+                    break;
+                }
+                else if(i == customers.size() - 1){
                     throw new CustomerNotFoundException();
                 }
             }
@@ -113,14 +116,18 @@ public class ThemePark {
             try {
 
                 if (attractions.get(i).getName().equals(attractionName)) {
+                    System.out.println("Found attraction");
                     foundAttraction = attractions.get(i);
-                } else {
+                    break;
+                }
+                else if(i == attractions.size() - 1){
                     throw new AttractionNotFoundException();
                 }
             }
             catch (AttractionNotFoundException e){
                 System.out.println(e);
                 System.out.println("Sorry, attraction could not be found");
+                //TODO fix attractions with space at the end not being found
             }
         }
         return foundAttraction;
@@ -144,4 +151,19 @@ public class ThemePark {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAttractions(ArrayList<Attraction> attractions) {
+        this.attractions = attractions;
+    }
+
+    public void setCustomers(ArrayList<Customer> customers) {
+        this.customers = customers;
+    }
 }
