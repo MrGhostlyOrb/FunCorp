@@ -154,7 +154,9 @@ public class Simulation {
                 } else if (itemList.get(0).equals("ADD_FUNDS")) {
                     Customer currentCustomer = park.getCustomer(itemList.get(1));
                     int amount = Integer.parseInt(itemList.get(2));
+                    System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
                     currentCustomer.addFunds(amount);
+                    System.out.println("Amount after adding funds : " + currentCustomer.getAccountBalance());
                 } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
                     //Create a new customer object and add it to the park
                     park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(5)), Customer.personalDiscountEnum.valueOf(itemList.get(6))));
