@@ -8,10 +8,7 @@ public class ThemePark {
     private ArrayList<Attraction> attractions;
     private ArrayList<Customer> customers;
 
-    public ThemePark(String name, ArrayList<Attraction> attractions, ArrayList<Customer> customers){
-        this.name = name;
-        this.attractions = attractions;
-        this.customers = customers;
+    public ThemePark(){
     }
 
     public ArrayList<Customer> getCustomers(){

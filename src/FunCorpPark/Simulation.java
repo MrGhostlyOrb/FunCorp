@@ -20,10 +20,13 @@ public class Simulation {
     }
 
     public static ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
-        ArrayList<Attraction> attractions = readAttractions();
-        ArrayList<Customer> customers = readCustomers();
 
-        ThemePark park = new ThemePark("park", attractions, customers);
+
+        ThemePark park = new ThemePark();
+
+        readAttractions(park);
+        readCustomers(park);
+
         System.out.println("Theme Park Created");
         System.out.println("Simulation about to begin");
 
@@ -47,8 +50,7 @@ public class Simulation {
         return lines;
     }
 
-    public static ArrayList<Attraction> readAttractions() throws FileNotFoundException, AttractionNotFoundException {
-        ArrayList<Attraction> att = new ArrayList<Attraction>();
+    public static void readAttractions(ThemePark park) throws FileNotFoundException, AttractionNotFoundException {
 
         ArrayList<String> list = readFile("src/attractions.txt");
         for (int i = 0; i < list.size(); i++) {
@@ -63,14 +65,14 @@ public class Simulation {
             try {
                 if (itemList.get(2).equals("ROL")) {
                     Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
-                    att.add(rol);
+                    park.addAttraction(rol);
                 } else if (itemList.get(2).equals("GEN")) {
                     Attraction gen = new GentleAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                    att.add(gen);
+                    park.addAttraction(gen);
                 } else if (itemList.get(2).equals("TRA")) {
                     Attraction tra = new TransportAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
                     System.out.println("got here");
-                    att.add(tra);
+                    park.addAttraction(tra);
                 } else {
                     System.out.println("Not Found");
                     throw new AttractionNotFoundException();
@@ -82,11 +84,9 @@ public class Simulation {
 
 
         }
-        System.out.println(att.toString());
-        return att;
     }
 
-    public static ArrayList<Customer> readCustomers() throws FileNotFoundException, CustomerNotFoundException {
+    public static void readCustomers(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
         ArrayList<Customer> cus = new ArrayList<Customer>();
 
         ArrayList<String> list = readFile("src/customers.txt");
@@ -104,28 +104,26 @@ public class Simulation {
                 if (itemList.get(4).length() < 5) {
                     Customer none = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.NONE);
                     System.out.println("Added " + none.toString());
-                    cus.add(none);
+                    park.addCustomer(none);
                 } else if (itemList.get(4).trim().equals("FAMILY")) {
 
 
                     Customer fam = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.valueOf(itemList.get(4).toUpperCase().trim()));
                     System.out.println("Added " + fam.toString());
-                    cus.add(fam);
+                    park.addCustomer(fam);
                 } else if (itemList.get(4).trim().equals("STUDENT")) {
                     Customer stu = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.valueOf(itemList.get(4).toUpperCase().trim()));
                     System.out.println("Added " + stu.toString());
-                    cus.add(stu);
+                    park.addCustomer(stu);
                 } else {
                     throw new CustomerNotFoundException();
                 }
             } catch (CustomerNotFoundException e) {
                 System.out.println(e);
-                System.out.println(e.getCause());;
             }
 
 
         }
-        return cus;
     }
 
     public static void readTransactions(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, RideNotFoundException {
