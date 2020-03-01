@@ -163,4 +163,19 @@ public class ThemePark {
     public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
     }
+
+    public static void main(String[] args) {
+        ThemePark park = new ThemePark();
+
+        Customer cus = new Customer("Dave", "12000", 15, 1200, Customer.personalDiscountEnum.FAMILY);
+        park.addCustomer(cus);
+
+        System.out.println(park.getCustomers());
+
+        Attraction rol = new RollerCoaster("rollercoaster", 12, "ROL", 7, 12.1);
+        park.addAttraction(rol);
+        //TODO fix NullPointerException here when adding attractions and customers
+    }
+
+
 }
