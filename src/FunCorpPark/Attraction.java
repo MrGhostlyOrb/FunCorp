@@ -35,4 +35,7 @@ public abstract class Attraction {
         return name + " " + basePriceString + ":Base price";
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 }

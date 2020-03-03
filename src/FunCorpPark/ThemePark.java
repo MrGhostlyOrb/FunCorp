@@ -8,10 +8,7 @@ public class ThemePark {
     private ArrayList<Attraction> attractions;
     private ArrayList<Customer> customers;
 
-    public ThemePark(String name, ArrayList<Attraction> attractions, ArrayList<Customer> customers){
-        this.name = name;
-        this.attractions = attractions;
-        this.customers = customers;
+    public ThemePark(){
     }
 
     public ArrayList<Customer> getCustomers(){
@@ -58,5 +55,127 @@ public class ThemePark {
         }
         return avgSpeed/count;
     }
+
+    public void addAttraction(Attraction newAttraction){
+        this.attractions.add(newAttraction);
+    }
+
+    public void addCustomer(Customer newCustomer){
+        this.customers.add(newCustomer);
+    }
+
+    public Customer getCustomer(String accountNumber) throws CustomerNotFoundException {
+
+        Customer foundCustomer = null;
+
+        for(int i = 0; i < customers.size(); i++){
+            try {
+
+                if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                    System.out.println("Found customer");
+                    foundCustomer = customers.get(i);
+                    break;
+                }
+                else if(i == customers.size() - 1){
+                    throw new CustomerNotFoundException();
+                }
+            }
+            catch (CustomerNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, customer could not be found");
+            }
+        }
+        return foundCustomer;
+    }
+
+    public void removeCustomer(String accountNumber){
+
+        for(int i = 0; i < customers.size(); i++){
+            try {
+
+                if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                    customers.remove(i);
+                } else {
+                    throw new CustomerNotFoundException();
+                }
+            }
+            catch (CustomerNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, customer could not be found");
+            }
+        }
+    }
+
+    public Attraction getAttraction(String attractionName){
+        Attraction foundAttraction = null;
+
+        for(int i = 0; i < attractions.size(); i++){
+            try {
+
+                if (attractions.get(i).getName().equals(attractionName)) {
+                    System.out.println("Found attraction");
+                    foundAttraction = attractions.get(i);
+                    break;
+                }
+                else if(i == attractions.size() - 1){
+                    throw new AttractionNotFoundException();
+                }
+            }
+            catch (AttractionNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, attraction could not be found");
+                //TODO fix attractions with space at the end not being found
+            }
+        }
+        return foundAttraction;
+    }
+
+    public void removeAttraction(String attractionName){
+
+        for(int i = 0; i < attractions.size(); i++){
+            try {
+
+                if (attractions.get(i).getName().equals(attractionName)) {
+                    attractions.remove(i);
+                } else {
+                    throw new AttractionNotFoundException();
+                }
+            }
+            catch (AttractionNotFoundException e){
+                System.out.println(e);
+                System.out.println("Sorry, attraction could not be found");
+            }
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAttractions(ArrayList<Attraction> attractions) {
+        this.attractions = attractions;
+    }
+
+    public void setCustomers(ArrayList<Customer> customers) {
+        this.customers = customers;
+    }
+
+    public static void main(String[] args) {
+        ThemePark park = new ThemePark();
+
+        Customer cus = new Customer("Dave", "12000", 15, 1200, Customer.personalDiscountEnum.FAMILY);
+        park.addCustomer(cus);
+
+        System.out.println(park.getCustomers());
+
+        Attraction rol = new RollerCoaster("rollercoaster", 12, "ROL", 7, 12.1);
+        park.addAttraction(rol);
+        //TODO fix NullPointerException here when adding attractions and customers
+    }
+
 
 }
