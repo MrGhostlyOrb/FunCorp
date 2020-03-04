@@ -174,7 +174,7 @@ public class Simulation {
                         //Find customer, determine ride type and apply reduction to funds
                         currentCustomer.useAttraction(currentAttraction.getBasePrice());
                     } else if (itemList.get(1).equals("OFF_PEAK")) {
-                        //Apply off peak pricing to customer's purchase
+                        //Apply off peak pricing to customer's purchase //TODO fix issue when customers are not found
                         if(pass == false) {
                             try {
                                 if(pass = false){
@@ -202,7 +202,6 @@ public class Simulation {
                     int amount = Integer.parseInt(itemList.get(2));
                     System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
                     currentCustomer.addFunds(amount);
-                    System.out.println("Amount after adding funds : " + currentCustomer.getAccountBalance());
                 } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
                     //Create a new customer object and add it to the park
                     System.out.println(itemList.size());

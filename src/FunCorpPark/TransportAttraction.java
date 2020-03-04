@@ -60,4 +60,12 @@ public class TransportAttraction extends Attraction {
     public void setDistance(int distance) {
         this.distance = distance;
     }
+
+    public static void main(String[] args) {
+        TransportAttraction att = new TransportAttraction("Transport", 5, "TRA", 100);
+        System.out.println(att.getDistance());
+        System.out.println(att.getBasePrice());
+        att.setName("Tra");
+        System.out.println(att.getName());
+    }
 }

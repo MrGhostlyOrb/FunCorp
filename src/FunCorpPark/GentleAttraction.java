@@ -59,4 +59,13 @@ public class GentleAttraction extends Attraction {
     public void setNoPeople(int noPeople) {
         this.noPeople = noPeople;
     }
+
+    public static void main(String[] args) {
+        GentleAttraction att = new GentleAttraction("Gentle", 5, "GEN", 100);
+        System.out.println(att.getNoPeople());
+        System.out.println(att.getBasePrice());
+        att.setName("Gen");
+        System.out.println(att.getName());
+    }
+
 }
