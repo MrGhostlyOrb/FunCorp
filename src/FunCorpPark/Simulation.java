@@ -147,7 +147,10 @@ public class Simulation {
     }
 
     //Method to read information from the transactions.txt file
-    public static void readTransactions(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, NumberFormatException {
+    public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException {
+
+        boolean pass = false;
+
         ArrayList<String> list = readFile("src/transactions.txt");
         for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
@@ -158,6 +161,7 @@ public class Simulation {
                 String item = scanner.next();
                 itemList.add(item);
             }
+            System.out.println(itemList.get(0));
 
             //Try to determine the action to be done and the price to ride Attraction
             try {
@@ -171,8 +175,27 @@ public class Simulation {
                         currentCustomer.useAttraction(currentAttraction.getBasePrice());
                     } else if (itemList.get(1).equals("OFF_PEAK")) {
                         //Apply off peak pricing to customer's purchase
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
-                    }
+                        if(pass == false) {
+                            try {
+                                if(pass = false){
+                                    throw new CustomerNotFoundException();
+                                }
+                                else{
+                                    currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+                                }
+
+
+                            }
+                            catch(CustomerNotFoundException e){
+
+                            }
+                            }
+                        else{
+                            System.out.println("Skipped action");
+                            pass = false;
+                        }
+
+                        }
                 } else if (itemList.get(0).equals("ADD_FUNDS")) {
                     //Add provided funds to the customer's account balance
                     Customer currentCustomer = park.getCustomer(itemList.get(1));
@@ -182,15 +205,24 @@ public class Simulation {
                     System.out.println("Amount after adding funds : " + currentCustomer.getAccountBalance());
                 } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
                     //Create a new customer object and add it to the park
-                    park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(5)), Customer.personalDiscountEnum.valueOf(itemList.get(6))));
+                    System.out.println(itemList.size());
 
+                    if(itemList.size() > 5) {
+                        park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
+                    }
+                    else{
+                        park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
+                    }
                 } else {
                     //Throw action not found Exception if the transaction line cannot be read
                     throw new ActionNotFoundException();
                 }
             }
-            catch (ActionNotFoundException e){
+            catch (ActionNotFoundException | CustomerNotFoundException e){
                 System.out.println(e);
+                pass = true;
+                System.out.println("(1)");
+                readTransactions(park);
             }
 
         }

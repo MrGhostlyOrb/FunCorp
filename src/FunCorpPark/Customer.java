@@ -20,6 +20,14 @@ public class Customer {
         }
     }
 
+    public Customer(String name, String accountNumber, int age, int accountBalance, personalDiscountEnum personalDiscount) {
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.age = age;
+        this.accountBalance = accountBalance;
+        this.personalDiscount = personalDiscount;
+    }
+
     public String getName() {
         return name;
     }
@@ -49,15 +57,6 @@ public class Customer {
     private int age;
     private int accountBalance;
     private personalDiscountEnum personalDiscount;
-
-
-    public Customer(String name, String accountNumber, int age, int accountBalance, personalDiscountEnum personalDiscount) {
-        this.name = name;
-        this.accountNumber = accountNumber;
-        this.age = age;
-        this.accountBalance = accountBalance;
-        this.personalDiscount = personalDiscount;
-    }
 
     @Override
 

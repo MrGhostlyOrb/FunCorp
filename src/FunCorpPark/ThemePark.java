@@ -76,7 +76,7 @@ public class ThemePark {
             try {
 
                 if (customers.get(i).getAccountNumber().equals(accountNumber)) {
-                    System.out.println("Found customer");
+                    System.out.println("Found customer : " + customers.get(i).getName());
                     foundCustomer = customers.get(i);
                     break;
                 }
