@@ -9,6 +9,9 @@ public class ThemePark {
     private ArrayList<Customer> customers;
 
     public ThemePark(){
+        attractions = new ArrayList<Attraction>();
+        customers = new ArrayList<Customer>();
+        name = "";
     }
 
     public ArrayList<Customer> getCustomers(){
