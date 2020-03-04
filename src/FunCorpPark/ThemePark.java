@@ -46,17 +46,18 @@ public class ThemePark {
         return totalCapacity / count;
     }
 
-    public double calculateMedianCoasterSpeed(){ //TODO Median
-        double avgSpeed = 0;
+    public double calculateMedianCoasterSpeed(){
+        //Use ArrayList to store all speeds and then choose middle value to find median
+        ArrayList<Double> avgSpeed = new ArrayList<Double>();
         int count = 0;
         for(int i = 0; i < attractions.size(); i++){
             if(attractions.get(i).getType().equals("ROL")){
                 RollerCoaster attr = (RollerCoaster) attractions.get(i);
-                avgSpeed = avgSpeed + attr.getSpeed();
+                avgSpeed.add(attr.getSpeed());
                 count++;
             }
         }
-        return avgSpeed/count;
+        return avgSpeed.get(count/2);
     }
 
     public void addAttraction(Attraction newAttraction){
@@ -175,9 +176,15 @@ public class ThemePark {
 
         System.out.println(park.getCustomers());
 
-        Attraction rol = new RollerCoaster("rollercoaster", 12, "ROL", 7, 12.1);
+        Attraction rol = new RollerCoaster("roller coaster ", 12, "ROL", 7, 12.1);
         park.addAttraction(rol);
-        //TODO fix NullPointerException here when adding attractions and customers
+
+        Attraction rol2 = new RollerCoaster("roller coaster2", 12, "ROL", 7, 12.1);
+        park.addAttraction(rol);
+
+        System.out.println(rol.toString() + rol2.toString());
+        System.out.println(rol.getName().trim());
+        System.out.println(rol2.getName().trim());
     }
 
 

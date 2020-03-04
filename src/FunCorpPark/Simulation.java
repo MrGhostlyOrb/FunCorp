@@ -75,14 +75,13 @@ public class Simulation {
             }
             try {
                 if (itemList.get(2).equals("ROL")) {
-                    Attraction rol = new RollerCoaster(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
+                    Attraction rol = new RollerCoaster(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
                     park.addAttraction(rol);
                 } else if (itemList.get(2).equals("GEN")) {
-                    Attraction gen = new GentleAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                    Attraction gen = new GentleAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
                     park.addAttraction(gen);
                 } else if (itemList.get(2).equals("TRA")) {
-                    Attraction tra = new TransportAttraction(itemList.get(0), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                    System.out.println("got here");
+                    Attraction tra = new TransportAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
                     park.addAttraction(tra);
                 } else {
                     System.out.println("Not Found");
@@ -118,7 +117,7 @@ public class Simulation {
             try {
 
                 //If statement to determine the type of Customer to add the the ThemePark
-                if (itemList.get(4).length() < 5) {
+                if (itemList.size() < 5) {
 
                     //Create new Customer with the information and add to the ThemePark
                     Customer none = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.NONE);
@@ -148,7 +147,7 @@ public class Simulation {
     }
 
     //Method to read information from the transactions.txt file
-    public static void readTransactions(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, RideNotFoundException {
+    public static void readTransactions(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, NumberFormatException {
         ArrayList<String> list = readFile("src/transactions.txt");
         for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
@@ -171,9 +170,11 @@ public class Simulation {
                         //Find customer, determine ride type and apply reduction to funds
                         currentCustomer.useAttraction(currentAttraction.getBasePrice());
                     } else if (itemList.get(1).equals("OFF_PEAK")) {
+                        //Apply off peak pricing to customer's purchase
                         currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
                     }
                 } else if (itemList.get(0).equals("ADD_FUNDS")) {
+                    //Add provided funds to the customer's account balance
                     Customer currentCustomer = park.getCustomer(itemList.get(1));
                     int amount = Integer.parseInt(itemList.get(2));
                     System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
@@ -184,6 +185,7 @@ public class Simulation {
                     park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(5)), Customer.personalDiscountEnum.valueOf(itemList.get(6))));
 
                 } else {
+                    //Throw action not found Exception if the transaction line cannot be read
                     throw new ActionNotFoundException();
                 }
             }
