@@ -22,9 +22,9 @@ public class Simulation {
         ThemePark park = createThemePark();
 
         //Run 3 methods from ThemePark to return Total Distance, Capacity and Top Speed
-        System.out.println(park.calculateTotalTransportDistance());
-        System.out.println(park.calculateAverageGentleCapacity());
-        System.out.println(park.calculateMedianCoasterSpeed());
+        System.out.println("Total Distance : " + park.calculateTotalTransportDistance());
+        System.out.println("Average Capacity : " + park.calculateAverageGentleCapacity());
+        System.out.println("Median Speed : " + park.calculateMedianCoasterSpeed());
 
         simulate(park);
 
@@ -35,11 +35,6 @@ public class Simulation {
 
 
         ThemePark park = new ThemePark();
-
-        Attraction newAttraction = new RollerCoaster("hi", 3, "ROL", 7, 12.1);
-        park.addAttraction(newAttraction);
-
-        System.out.println(park.getAttractions());
 
         readAttractions(park);
         readCustomers(park);
@@ -158,6 +153,7 @@ public class Simulation {
     //Method to read information from the transactions.txt file
     public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException {
 
+        int totalProfit = 0;
         boolean pass = false;
 
         ArrayList<String> list = readFile("transactions.txt");
@@ -181,8 +177,17 @@ public class Simulation {
 
                     if (itemList.get(1).equals("STANDARD_PRICE")) {
                         //Find customer, determine ride type and apply reduction to funds
-                        currentCustomer.useAttraction(currentAttraction.getBasePrice());
-                    } else if (itemList.get(1).equals("OFF_PEAK")) {
+
+                        if(currentAttraction.getType().equals("ROL")) {
+
+                            currentCustomer.useAttraction(currentAttraction.getBasePrice(), currentCustomer.getAge());
+                            totalProfit = totalProfit + currentAttraction.getBasePrice();
+                        }
+                        else{
+                            currentCustomer.useAttraction(currentAttraction.getBasePrice());
+                            totalProfit = totalProfit + currentAttraction.getBasePrice();
+                        }
+                        } else if (itemList.get(1).equals("OFF_PEAK")) {
                         //Apply off peak pricing to customer's purchase //TODO fix issue when customers are not found
                         if(pass == false) {
                             try {
@@ -190,7 +195,17 @@ public class Simulation {
                                     throw new CustomerNotFoundException();
                                 }
                                 else{
-                                    currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+
+
+                                    if(currentAttraction.getType().equals("ROL")) {
+
+                                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), currentCustomer.getAge());
+                                        totalProfit = totalProfit + currentAttraction.getOffPeakPrice();
+                                    }
+                                    else{
+                                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+                                        totalProfit = totalProfit + currentAttraction.getOffPeakPrice();
+                                    }
                                 }
 
 
@@ -226,7 +241,7 @@ public class Simulation {
                     throw new ActionNotFoundException();
                 }
             }
-            catch (ActionNotFoundException | CustomerNotFoundException e){
+            catch (ActionNotFoundException | CustomerNotFoundException | AgeRestrictionException e){
                 System.out.println(e);
                 pass = true;
                 System.out.println("(1)");
@@ -234,6 +249,7 @@ public class Simulation {
             }
 
         }
+        System.out.println("Total profit for the day : " + totalProfit);
     }
 
 }

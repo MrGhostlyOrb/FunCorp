@@ -18,16 +18,22 @@ public class Customer {
     public enum personalDiscountEnum {
         STUDENT(0.9), FAMILY(0.85), NONE(0);
 
-        private final double i;
+        private final double discountEnum;
 
         personalDiscountEnum(double i) {
-            this.i = i;
+            this.discountEnum = i;
         }
 
-        public double getI() {
-            return i;
+        public double getDiscountEnum() {
+            return discountEnum;
         }
     }
+
+    private String accountNumber;
+    private String name;
+    private int age;
+    private int accountBalance;
+    private personalDiscountEnum personalDiscount;
 
     public Customer(String name, String accountNumber, int age, int accountBalance, personalDiscountEnum personalDiscount) {
         this.name = name;
@@ -61,12 +67,6 @@ public class Customer {
         return accountBalance;
     }
 
-    private String name;
-    private String accountNumber;
-    private int age;
-    private int accountBalance;
-    private personalDiscountEnum personalDiscount;
-
     @Override
 
     public String toString() {
@@ -77,8 +77,8 @@ public class Customer {
         return out;
     }
 
-    public void addFunds(int funds) {
-        accountBalance = accountBalance + funds;
+    public void addFunds(int amount) {
+        accountBalance = accountBalance + amount;
         System.out.println("New balance is : " + accountBalance);
     }
 
