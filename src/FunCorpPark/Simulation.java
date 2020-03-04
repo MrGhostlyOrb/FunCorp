@@ -63,7 +63,7 @@ public class Simulation {
     //Method to read information from attractions.txt and add to ThemePark
     public static void readAttractions(ThemePark park) throws FileNotFoundException, AttractionNotFoundException {
 
-        ArrayList<String> list = readFile("src/attractions.txt");
+        ArrayList<String> list = readFile("attractions.txt");
         for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
@@ -100,7 +100,7 @@ public class Simulation {
     public static void readCustomers(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
 
         //Create list to store file information for parsing
-        ArrayList<String> list = readFile("src/customers.txt");
+        ArrayList<String> list = readFile("customers.txt");
 
         //Loop through list to get each piece of information
         for (int i = 0; i < list.size(); i++) {
@@ -151,7 +151,7 @@ public class Simulation {
 
         boolean pass = false;
 
-        ArrayList<String> list = readFile("src/transactions.txt");
+        ArrayList<String> list = readFile("transactions.txt");
         for (int i = 0; i < list.size(); i++) {
             String info = list.get(i);
             Scanner scanner = new Scanner(info);
