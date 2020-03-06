@@ -83,14 +83,40 @@ public class Customer {
     }
 
     public void useAttraction(int price) {
-        accountBalance = accountBalance - price;
+
+        try {
+
+            if (accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
+                throw new InsufficientBalanceException();
+
+            }
+
+            accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
     }
 
-    public void useAttraction(int price, int minimumAge) throws AgeRestrictionException {
-        if (this.age > minimumAge) {
-            accountBalance = accountBalance - price;
-        } else {
-            throw new AgeRestrictionException();
+    public void useAttraction(int price, int minimumAge) {
+
+        try {
+
+            if (this.age >= minimumAge) {
+                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            } else {
+                throw new AgeRestrictionException();
+            }
+            if(this.accountBalance < (price * this.personalDiscount.getDiscountEnum())){
+                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            }
+            else{
+                throw new InsufficientBalanceException();  b n nbhjhbvjhiycviyv
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
         }
     }
 

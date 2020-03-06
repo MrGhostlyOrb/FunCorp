@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class Simulation {
 
     //Main method to being program
-    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException, NoSuchFieldException, RideNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException, NoSuchFieldException, RideNotFoundException, AgeRestrictionException {
 
         ThemePark park = createThemePark();
 
@@ -47,7 +47,7 @@ public class Simulation {
     }
 
     //Method to simulate the actions from transactions.txt
-    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, RideNotFoundException {
+    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, RideNotFoundException, AgeRestrictionException {
         readTransactions(park);
     }
 
@@ -151,7 +151,7 @@ public class Simulation {
     }
 
     //Method to read information from the transactions.txt file
-    public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException {
+    public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException, CustomerNotFoundException, AgeRestrictionException {
 
         int totalProfit = 0;
         boolean pass = false;
@@ -168,88 +168,64 @@ public class Simulation {
             }
             System.out.println(itemList.get(0));
 
-            //Try to determine the action to be done and the price to ride Attraction
             try {
-                if (itemList.get(0).equals("USE_ATTRACTION")) {
-
-                    Customer currentCustomer = park.getCustomer(itemList.get(2));
-                    Attraction currentAttraction = park.getAttraction(itemList.get(3));
-
-                    if (itemList.get(1).equals("STANDARD_PRICE")) {
-                        //Find customer, determine ride type and apply reduction to funds
-
-                        if(currentAttraction.getType().equals("ROL")) {
-
-                            currentCustomer.useAttraction(currentAttraction.getBasePrice(), currentCustomer.getAge());
-                            totalProfit = totalProfit + currentAttraction.getBasePrice();
-                        }
-                        else{
-                            currentCustomer.useAttraction(currentAttraction.getBasePrice());
-                            totalProfit = totalProfit + currentAttraction.getBasePrice();
-                        }
-                        } else if (itemList.get(1).equals("OFF_PEAK")) {
-                        //Apply off peak pricing to customer's purchase //TODO fix issue when customers are not found
-                        if(pass == false) {
-                            try {
-                                if(pass = false){
-                                    throw new CustomerNotFoundException();
-                                }
-                                else{
-
-
-                                    if(currentAttraction.getType().equals("ROL")) {
-
-                                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), currentCustomer.getAge());
-                                        totalProfit = totalProfit + currentAttraction.getOffPeakPrice();
-                                    }
-                                    else{
-                                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
-                                        totalProfit = totalProfit + currentAttraction.getOffPeakPrice();
-                                    }
-                                }
-
-
-                            }
-                            catch(CustomerNotFoundException e){
-
-                            }
-                            }
-                        else{
-                            System.out.println("Skipped action");
-                            pass = false;
-                        }
-
-                        }
-                } else if (itemList.get(0).equals("ADD_FUNDS")) {
-                    //Add provided funds to the customer's account balance
-                    Customer currentCustomer = park.getCustomer(itemList.get(1));
-                    int amount = Integer.parseInt(itemList.get(2));
-                    System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
-                    currentCustomer.addFunds(amount);
-                } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
-                    //Create a new customer object and add it to the park
-                    System.out.println(itemList.size());
-
-                    if(itemList.size() > 5) {
-                        park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
-                    }
-                    else{
-                        park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
-                    }
-                } else {
-                    //Throw action not found Exception if the transaction line cannot be read
-                    throw new ActionNotFoundException();
-                }
+                useAttraction(itemList, park);
+                addFunds(itemList, park);
+                newCustomer(itemList, park);
             }
-            catch (ActionNotFoundException | CustomerNotFoundException | AgeRestrictionException e){
+            catch(CustomerNotFoundException | AgeRestrictionException e){
                 System.out.println(e);
-                pass = true;
-                System.out.println("(1)");
-                readTransactions(park);
             }
-
         }
+
         System.out.println("Total profit for the day : " + totalProfit);
     }
+
+    private static void newCustomer(ArrayList<String> itemList, ThemePark park) {
+        if(itemList.size() > 5) {
+            park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
+        }
+        else{
+            park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
+        }
+    }
+
+    private static void addFunds(ArrayList<String> itemList, ThemePark park) throws CustomerNotFoundException {
+        Customer currentCustomer = park.getCustomer(itemList.get(1));
+        int amount = Integer.parseInt(itemList.get(2));
+        System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
+        currentCustomer.addFunds(amount);
+    }
+
+    private static void useAttraction(ArrayList<String> itemList, ThemePark park) throws CustomerNotFoundException, AgeRestrictionException {
+
+            park.getCustomer(itemList.get(2));
+
+            Customer currentCustomer = park.getCustomer(itemList.get(2));
+
+            Attraction currentAttraction = park.getAttraction(itemList.get(3));
+
+            if(itemList.get(0).equals("USE_ATTRACTION")){
+                if(itemList.get(1).equals("STANDARD_PRICE")){
+                    if(currentAttraction.getType().equals("ROL")){
+                        //TODO fix min age for ride
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), (RollerCoaster) currentAttraction.getMinAge);
+                    }
+                    else{
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+                    }
+                }
+                else{
+                    if(currentAttraction.getType().equals("ROL")){
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), currentCustomer.getAge());
+                    }
+                    else{
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+                    }
+                }
+            }
+        }
+
+
 
 }
