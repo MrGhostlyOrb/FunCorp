@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -31,7 +30,7 @@ public class Simulation {
     }
 
     //Method to create a ThemePark by reading in information from customers.txt and attractions.txt
-    public static ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException {
+    public static ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException {
 
 
         ThemePark park = new ThemePark();
@@ -47,7 +46,7 @@ public class Simulation {
     }
 
     //Method to simulate the actions from transactions.txt
-    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, RideNotFoundException, AgeRestrictionException {
+    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, AgeRestrictionException {
         readTransactions(park);
     }
 
@@ -94,6 +93,7 @@ public class Simulation {
                 }
             } catch (NumberFormatException | InvalidCreationException e) {
                 System.out.println(e);
+                System.out.println("Code here to fix NumberFormatException or InvalidCreationException");
             }
 
 
@@ -101,7 +101,7 @@ public class Simulation {
     }
 
     //Method to read information from the customers.txt file
-    public static void readCustomers(ThemePark park) throws FileNotFoundException, CustomerNotFoundException {
+    public static void readCustomers(ThemePark park) throws FileNotFoundException {
 
         //Create list to store file information for parsing
         ArrayList<String> list = readFile("customers.txt");
@@ -144,6 +144,7 @@ public class Simulation {
                 //Catch any information that could not be added to the ThemePark from the file
             } catch (InvalidCreationException e) {
                 System.out.println(e);
+                System.out.println("Code here to fix InvalidCreationException");
             }
 
 
@@ -151,10 +152,10 @@ public class Simulation {
     }
 
     //Method to read information from the transactions.txt file
-    public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException, CustomerNotFoundException, AgeRestrictionException {
+    public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException {
 
+        //Variable to store the total profit for the transactions file
         int totalProfit = 0;
-        boolean pass = false;
 
         ArrayList<String> list = readFile("transactions.txt");
         for (int i = 0; i < list.size(); i++) {
@@ -166,14 +167,25 @@ public class Simulation {
                 String item = scanner.next();
                 itemList.add(item);
             }
+            //Print out the action about to be taken
             System.out.println(itemList.get(0));
 
             try {
-                useAttraction(itemList, park);
-                addFunds(itemList, park);
-                newCustomer(itemList, park);
-            }
-            catch(CustomerNotFoundException | AgeRestrictionException e){
+
+                //Run helper methods to check which action to take and take it
+                if (itemList.get(0).equals("USE_ATTRACTION")) {
+                    System.out.println("Checking use attraction");
+                    useAttractionHelp(itemList, park, totalProfit);
+                } else if (itemList.get(0).equals("ADD_FUNDS")) {
+                    System.out.println("Checking add funds");
+                    addFundsHelp(itemList, park);
+                } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
+                    System.out.println("Checking new customer");
+                    newCustomerHelp(itemList, park);
+                } else {
+                    throw new ActionNotFoundException();
+                }
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
@@ -181,51 +193,85 @@ public class Simulation {
         System.out.println("Total profit for the day : " + totalProfit);
     }
 
-    private static void newCustomer(ArrayList<String> itemList, ThemePark park) {
-        if(itemList.size() > 5) {
+    private static void newCustomerHelp(ArrayList<String> itemList, ThemePark park) {
+        if (itemList.size() > 5) {
             park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
-        }
-        else{
+        } else {
             park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
         }
     }
 
-    private static void addFunds(ArrayList<String> itemList, ThemePark park) throws CustomerNotFoundException {
-        Customer currentCustomer = park.getCustomer(itemList.get(1));
-        int amount = Integer.parseInt(itemList.get(2));
-        System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
-        currentCustomer.addFunds(amount);
+    private static void addFundsHelp(ArrayList<String> itemList, ThemePark park) {
+        Customer currentCustomer = null;
+        try {
+            currentCustomer = park.getCustomer(itemList.get(1));
+            if (currentCustomer == null) {
+                throw new CustomerNotFoundException();
+            }
+
+            int amount = Integer.parseInt(itemList.get(2));
+            System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
+            currentCustomer.addFunds(amount);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Failed to find customer to add funds");
+        }
+
     }
 
-    private static void useAttraction(ArrayList<String> itemList, ThemePark park) throws CustomerNotFoundException, AgeRestrictionException {
+    private static void useAttractionHelp(ArrayList<String> itemList, ThemePark park, int totalProfit) {
 
-            park.getCustomer(itemList.get(2));
+        Customer currentCustomer = null;
+        Attraction currentAttraction = null;
 
-            Customer currentCustomer = park.getCustomer(itemList.get(2));
+        //Find the customer and attraction from the file
+        try {
+            currentCustomer = park.getCustomer(itemList.get(2));
+            currentAttraction = park.getAttraction(itemList.get(3));
+            if (currentCustomer == null) {
+                System.out.println("Run code to fix null here");
+                throw new CustomerNotFoundException();
+            } else if (currentAttraction == null) {
+                System.out.println("Run code to fix null here (1)");
+                throw new RideNotFoundException();
+            }
 
-            Attraction currentAttraction = park.getAttraction(itemList.get(3));
+            System.out.println("Balance before using attraction : " + currentCustomer.getAccountBalance());
 
-            if(itemList.get(0).equals("USE_ATTRACTION")){
-                if(itemList.get(1).equals("STANDARD_PRICE")){
-                    if(currentAttraction.getType().equals("ROL")){
-                        //TODO fix min age for ride
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), (RollerCoaster) currentAttraction.getMinAge);
+            if (itemList.get(0).equals("USE_ATTRACTION")) {
+                //Check the price for the attraction
+                if (itemList.get(1).equals("STANDARD_PRICE")) {
+                    //Check the type of attraction that the customer wishes to use
+                    if (currentAttraction.getType().equals("ROL")) {
+                        //Perform the action
+                        RollerCoaster rolAttraction = (RollerCoaster) park.getAttraction(itemList.get(3));
+                        currentCustomer.useAttraction(currentAttraction.getBasePrice(), rolAttraction.getMinAge());
+                        totalProfit += currentAttraction.getBasePrice() * currentCustomer.getPersonalDiscount().getDiscountEnum();
+                    } else {
+                        currentCustomer.useAttraction(currentAttraction.getBasePrice());
+                        totalProfit += currentAttraction.getBasePrice() * currentCustomer.getPersonalDiscount().getDiscountEnum();
                     }
-                    else{
+                } else {
+                    if (currentAttraction.getType().equals("ROL")) {
+                        RollerCoaster rolAttraction = (RollerCoaster) park.getAttraction(itemList.get(3));
+                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), rolAttraction.getMinAge());
+                        totalProfit += (currentAttraction.getOffPeakPrice() * currentCustomer.getPersonalDiscount().getDiscountEnum());
+                    } else {
                         currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
-                    }
-                }
-                else{
-                    if(currentAttraction.getType().equals("ROL")){
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), currentCustomer.getAge());
-                    }
-                    else{
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
+                        totalProfit += (currentAttraction.getOffPeakPrice() * currentCustomer.getPersonalDiscount().getDiscountEnum());
                     }
                 }
             }
-        }
+            System.out.println("Balance after using attraction : " + currentCustomer.getAccountBalance());
 
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Fix anything not found here");
+        }
+        //Check for use attraction action
+
+    }
 
 
 }

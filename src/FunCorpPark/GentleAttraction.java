@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -16,18 +15,18 @@ public class GentleAttraction extends Attraction {
     private String type;
     private int noPeople;
 
-    public GentleAttraction(String name, int basePrice, String type, int noPeople){
+    public GentleAttraction(String name, int basePrice, String type, int noPeople) {
         this.name = name;
         this.basePrice = basePrice;
         this.type = type;
         this.noPeople = noPeople;
     }
 
-    public int getNoPeople(){
+    public int getNoPeople() {
         return this.noPeople;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 

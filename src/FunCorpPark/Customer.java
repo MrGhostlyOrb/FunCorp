@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -88,14 +87,14 @@ public class Customer {
 
             if (accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
                 throw new InsufficientBalanceException();
-
             }
 
             accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
+            System.out.println(accountBalance);
+            System.out.println("Code here to fix InsufficientBalanceException");
         }
     }
 
@@ -108,15 +107,15 @@ public class Customer {
             } else {
                 throw new AgeRestrictionException();
             }
-            if(this.accountBalance < (price * this.personalDiscount.getDiscountEnum())){
+            if (this.accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
                 accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            } else {
+                throw new InsufficientBalanceException();
             }
-            else{
-                throw new InsufficientBalanceException();  b n nbhjhbvjhiycviyv
-            }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
+            System.out.println(accountBalance);
+            System.out.println("Code here to fix InsufficientBalanceException (1)");
         }
     }
 

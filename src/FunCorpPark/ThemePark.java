@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -17,24 +16,24 @@ public class ThemePark {
     private ArrayList<Attraction> attractions;
     private ArrayList<Customer> customers;
 
-    public ThemePark(){
+    public ThemePark() {
         this.attractions = new ArrayList<Attraction>();
         this.customers = new ArrayList<Customer>();
         this.name = "";
     }
 
-    public ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers() {
         return this.customers;
     }
 
-    public ArrayList<Attraction> getAttractions(){
+    public ArrayList<Attraction> getAttractions() {
         return this.attractions;
     }
 
-    public int calculateTotalTransportDistance() throws NoSuchFieldException {
+    public int calculateTotalTransportDistance() {
         int totalDist = 0;
-        for(int i = 0; i < attractions.size(); i++){
-            if(attractions.get(i).getType().equals("TRA")){
+        for (int i = 0; i < attractions.size(); i++) {
+            if (attractions.get(i).getType().equals("TRA")) {
                 TransportAttraction attr = (TransportAttraction) attractions.get(i);
                 totalDist = totalDist + attr.getDistance();
             }
@@ -42,11 +41,11 @@ public class ThemePark {
         return totalDist;
     }
 
-    public double calculateAverageGentleCapacity(){
+    public double calculateAverageGentleCapacity() {
         double totalCapacity = 0;
         int count = 0;
-        for(int i = 0; i < attractions.size(); i++){
-            if(attractions.get(i).getType().equals("GEN")){
+        for (int i = 0; i < attractions.size(); i++) {
+            if (attractions.get(i).getType().equals("GEN")) {
                 GentleAttraction attr = (GentleAttraction) attractions.get(i);
                 totalCapacity = totalCapacity + attr.getNoPeople();
                 count++;
@@ -55,55 +54,46 @@ public class ThemePark {
         return totalCapacity / count;
     }
 
-    public double calculateMedianCoasterSpeed(){
+    public double calculateMedianCoasterSpeed() {
         //Use ArrayList to store all speeds and then choose middle value to find median
         ArrayList<Double> avgSpeed = new ArrayList<Double>();
         int count = 0;
-        for(int i = 0; i < attractions.size(); i++){
-            if(attractions.get(i).getType().equals("ROL")){
+        for (int i = 0; i < attractions.size(); i++) {
+            if (attractions.get(i).getType().equals("ROL")) {
                 RollerCoaster attr = (RollerCoaster) attractions.get(i);
                 avgSpeed.add(attr.getSpeed());
                 count++;
             }
         }
-        return avgSpeed.get(count/2);
+        return avgSpeed.get(count / 2);
     }
 
-    public void addAttraction(Attraction newAttraction){
+    public void addAttraction(Attraction newAttraction) {
         this.attractions.add(newAttraction);
     }
 
-    public void addCustomer(Customer newCustomer){
+    public void addCustomer(Customer newCustomer) {
         this.customers.add(newCustomer);
     }
 
-    public Customer getCustomer(String accountNumber) throws CustomerNotFoundException {
+    public Customer getCustomer(String accountNumber) {
 
         Customer foundCustomer = null;
 
-        for(int i = 0; i < customers.size(); i++){
-            try {
-
-                if (customers.get(i).getAccountNumber().equals(accountNumber)) {
-                    System.out.println("Found customer : " + customers.get(i).getName());
-                    foundCustomer = customers.get(i);
-                    break;
-                }
-                else if(i == customers.size() - 1){
-                    throw new CustomerNotFoundException();
-                }
-            }
-            catch (CustomerNotFoundException e){
-                System.out.println(e);
-                System.out.println("Sorry, customer could not be found");
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getAccountNumber().equals(accountNumber)) {
+                System.out.println("Found customer : " + customers.get(i).getName());
+                foundCustomer = customers.get(i);
+                break;
+            } else if (i == customers.size() - 1) {
             }
         }
         return foundCustomer;
     }
 
-    public void removeCustomer(String accountNumber){
+    public void removeCustomer(String accountNumber) {
 
-        for(int i = 0; i < customers.size(); i++){
+        for (int i = 0; i < customers.size(); i++) {
             try {
 
                 if (customers.get(i).getAccountNumber().equals(accountNumber)) {
@@ -111,30 +101,27 @@ public class ThemePark {
                 } else {
                     throw new CustomerNotFoundException();
                 }
-            }
-            catch (CustomerNotFoundException e){
+            } catch (CustomerNotFoundException e) {
                 System.out.println(e);
                 System.out.println("Sorry, customer could not be found");
             }
         }
     }
 
-    public Attraction getAttraction(String attractionName){
+    public Attraction getAttraction(String attractionName) {
         Attraction foundAttraction = null;
 
-        for(int i = 0; i < attractions.size(); i++){
+        for (int i = 0; i < attractions.size(); i++) {
             try {
 
                 if (attractions.get(i).getName().equals(attractionName)) {
                     System.out.println("Found attraction");
                     foundAttraction = attractions.get(i);
                     break;
-                }
-                else if(i == attractions.size() - 1){
+                } else if (i == attractions.size() - 1) {
                     throw new AttractionNotFoundException();
                 }
-            }
-            catch (AttractionNotFoundException e){
+            } catch (AttractionNotFoundException e) {
                 System.out.println(e);
                 System.out.println("Sorry, attraction could not be found");
                 //TODO fix attractions with space at the end not being found
@@ -143,9 +130,9 @@ public class ThemePark {
         return foundAttraction;
     }
 
-    public void removeAttraction(String attractionName){
+    public void removeAttraction(String attractionName) {
 
-        for(int i = 0; i < attractions.size(); i++){
+        for (int i = 0; i < attractions.size(); i++) {
             try {
 
                 if (attractions.get(i).getName().equals(attractionName)) {
@@ -153,8 +140,7 @@ public class ThemePark {
                 } else {
                     throw new AttractionNotFoundException();
                 }
-            }
-            catch (AttractionNotFoundException e){
+            } catch (AttractionNotFoundException e) {
                 System.out.println(e);
                 System.out.println("Sorry, attraction could not be found");
             }

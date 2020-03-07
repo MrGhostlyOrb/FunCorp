@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -16,7 +15,7 @@ public class TransportAttraction extends Attraction {
     private String type;
     private int distance;
 
-    public TransportAttraction(String name, int basePrice, String type, int distance){
+    public TransportAttraction(String name, int basePrice, String type, int distance) {
         this.name = name;
         this.basePrice = basePrice;
         this.type = type;
@@ -28,7 +27,7 @@ public class TransportAttraction extends Attraction {
         return distance;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 

@@ -4,7 +4,6 @@
  Author      : 100237847
  Date        : 20/03/2020
  Description :
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -17,29 +16,29 @@ public abstract class Attraction {
 
     public abstract int getOffPeakPrice();
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 
-    public int getBasePrice(){
+    public int getBasePrice() {
         return basePrice;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setBasePrice(int basePrice){
+    public void setBasePrice(int basePrice) {
         this.basePrice = basePrice;
     }
 
     @Override
 
-    public String toString(){
+    public String toString() {
         String basePriceString = Integer.toString(basePrice);
         return name + " " + basePriceString + ":Base price";
     }
