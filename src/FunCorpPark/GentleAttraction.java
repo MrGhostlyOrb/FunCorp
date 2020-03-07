@@ -1,9 +1,12 @@
 /***********************************************************************************************************************
 
- File        : Attraction.java
+ File        : GentleAttraction.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This is a class designed to store information about GentleAttractions in the ThemePark. It includes
+ information such as: name, basePrice, type, and the noPeople for the attraction along with various getters and setters
+ and an appropriate toString.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;

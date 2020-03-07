@@ -1,9 +1,11 @@
 /***********************************************************************************************************************
 
- File        : Attraction.java
+ File        : TransportAttraction.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This class is designed to store all of the information about a TransportAttraction such as its name,
+ basePrice, type and distance. It also includes getters and setters along with an appropriate toString.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;

@@ -1,9 +1,11 @@
 /***********************************************************************************************************************
 
- File        : Attraction.java
+ File        : Simulation.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This is the main class of the project that is used to read in all of the information from the various
+ source files and create a new ThemePark that can then be simulated through the tasks in the transactions.txt file.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;

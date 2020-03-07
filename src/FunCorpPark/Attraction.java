@@ -3,7 +3,10 @@
  File        : Attraction.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This class is designed to be an abstract class to store the basic information about all of the
+ attractions at a ThemePark. It includes an abstract method for returning the offPeakPrice for any of the attractions
+ along with various getter and setter methods and a toString.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;

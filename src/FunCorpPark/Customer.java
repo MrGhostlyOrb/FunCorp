@@ -1,9 +1,13 @@
 /***********************************************************************************************************************
 
- File        : Attraction.java
+ File        : Customer.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This class is designed to store various information about a customer in the ThemePark. The information
+ stored consists of: accountNumber, name, age, accountBalance and personalDiscount. This class also includes methods
+ for using various attractions, it has been overloaded in order to accommodate for RollerCoasters having a minimum
+ age to ride along with several getter and setter methods.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;

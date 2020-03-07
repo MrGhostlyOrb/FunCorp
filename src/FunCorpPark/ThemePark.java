@@ -1,9 +1,13 @@
 /***********************************************************************************************************************
 
- File        : Attraction.java
+ File        : ThemePark.java
  Author      : 100237847
  Date        : 20/03/2020
- Description :
+ Description : This class is used to store information about a ThemePark such as a name, list of attractions at the
+ ThemePark and a list of all the customers. It also contains several methods for adding and removing
+ attractions/customers from the ThemePark and 3 special methods for calculating the totalTransportDistance,
+ averageGentleCapacity and the medianCoasterSpeed.
+
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -55,7 +59,7 @@ public class ThemePark {
     }
 
     public double calculateMedianCoasterSpeed() {
-        //Use ArrayList to store all speeds and then choose middle value to find median
+        //Use ArrayList to store    l speeds and then choose middle value to find median
         ArrayList<Double> avgSpeed = new ArrayList<Double>();
         int count = 0;
         for (int i = 0; i < attractions.size(); i++) {
