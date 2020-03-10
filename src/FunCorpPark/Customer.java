@@ -87,6 +87,9 @@ public class Customer {
 
     public void useAttraction(int price) {
 
+        int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
+        System.out.println("Price for ride is : " + newPrice);
+
         try {
 
             if (accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
@@ -98,20 +101,26 @@ public class Customer {
         } catch (Exception e) {
             System.out.println(e);
             System.out.println(accountBalance);
+            System.out.println(price);
             System.out.println("Code here to fix InsufficientBalanceException");
         }
     }
 
     public void useAttraction(int price, int minimumAge) {
 
-        try {
+        int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
+        System.out.println("Price for ride is : " + newPrice);
 
+        try {
+            //TODO fix account being charged twice here
+            System.out.println("Checking age");
             if (this.age >= minimumAge) {
                 accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
             } else {
                 throw new AgeRestrictionException();
             }
-            if (this.accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
+            System.out.println("Checking balance");
+            if (this.accountBalance > (price * this.personalDiscount.getDiscountEnum())) {
                 accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
             } else {
                 throw new InsufficientBalanceException();
@@ -119,6 +128,7 @@ public class Customer {
         } catch (Exception e) {
             System.out.println(e);
             System.out.println(accountBalance);
+            System.out.println(price * this.personalDiscount.getDiscountEnum());
             System.out.println("Code here to fix InsufficientBalanceException (1)");
         }
     }

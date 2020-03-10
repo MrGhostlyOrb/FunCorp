@@ -177,7 +177,8 @@ public class Simulation {
                 //Run helper methods to check which action to take and take it
                 if (itemList.get(0).equals("USE_ATTRACTION")) {
                     System.out.println("Checking use attraction");
-                    useAttractionHelp(itemList, park, totalProfit);
+                    int prof = useAttractionHelp(itemList, park, totalProfit);
+                    totalProfit = prof;
                 } else if (itemList.get(0).equals("ADD_FUNDS")) {
                     System.out.println("Checking add funds");
                     addFundsHelp(itemList, park);
@@ -222,7 +223,7 @@ public class Simulation {
 
     }
 
-    private static void useAttractionHelp(ArrayList<String> itemList, ThemePark park, int totalProfit) {
+    private static int useAttractionHelp(ArrayList<String> itemList, ThemePark park, int totalProfit) {
 
         Customer currentCustomer = null;
         Attraction currentAttraction = null;
@@ -272,7 +273,7 @@ public class Simulation {
             System.out.println("Fix anything not found here");
         }
         //Check for use attraction action
-
+        return totalProfit;
     }
 
 
