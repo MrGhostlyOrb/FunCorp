@@ -119,7 +119,7 @@ public class ThemePark {
             try {
 
                 if (attractions.get(i).getName().equals(attractionName)) {
-                    System.out.println("Found attraction");
+                    System.out.println("Found attraction : " + attractions.get(i).getName());
                     foundAttraction = attractions.get(i);
                     break;
                 } else if (i == attractions.size() - 1) {

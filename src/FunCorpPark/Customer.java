@@ -19,7 +19,7 @@ public class Customer {
     }
 
     public enum personalDiscountEnum {
-        STUDENT(0.9), FAMILY(0.85), NONE(0);
+        STUDENT(0.9), FAMILY(0.85), NONE(1);
 
         private final double discountEnum;
 
@@ -88,48 +88,47 @@ public class Customer {
     public void useAttraction(int price) {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
-        System.out.println("Price for ride is : " + newPrice);
+        System.out.println("Price after discount : " + newPrice);
 
         try {
 
             if (accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
                 throw new InsufficientBalanceException();
             }
-
-            accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            else{
+                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            }
 
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println(accountBalance);
-            System.out.println(price);
-            System.out.println("Code here to fix InsufficientBalanceException");
         }
     }
-
+//ewura adjoa amo
+    //nana adwoa
     public void useAttraction(int price, int minimumAge) {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
         System.out.println("Price for ride is : " + newPrice);
+        boolean validAge = false;
 
         try {
-            //TODO fix account being charged twice here
             System.out.println("Checking age");
-            if (this.age >= minimumAge) {
-                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
-            } else {
+            if(this.age >= minimumAge){
+                validAge = true;
+            }
+            else{
+                validAge = false;
                 throw new AgeRestrictionException();
             }
             System.out.println("Checking balance");
-            if (this.accountBalance > (price * this.personalDiscount.getDiscountEnum())) {
+            if(this.accountBalance >= price && validAge == true){
                 accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
-            } else {
+            }
+            else{
                 throw new InsufficientBalanceException();
             }
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println(accountBalance);
-            System.out.println(price * this.personalDiscount.getDiscountEnum());
-            System.out.println("Code here to fix InsufficientBalanceException (1)");
         }
     }
 

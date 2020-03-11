@@ -95,7 +95,6 @@ public class Simulation {
                 }
             } catch (NumberFormatException | InvalidCreationException e) {
                 System.out.println(e);
-                System.out.println("Code here to fix NumberFormatException or InvalidCreationException");
             }
 
 
@@ -146,7 +145,6 @@ public class Simulation {
                 //Catch any information that could not be added to the ThemePark from the file
             } catch (InvalidCreationException e) {
                 System.out.println(e);
-                System.out.println("Code here to fix InvalidCreationException");
             }
 
 
@@ -176,14 +174,11 @@ public class Simulation {
 
                 //Run helper methods to check which action to take and take it
                 if (itemList.get(0).equals("USE_ATTRACTION")) {
-                    System.out.println("Checking use attraction");
                     int prof = useAttractionHelp(itemList, park, totalProfit);
                     totalProfit = prof;
                 } else if (itemList.get(0).equals("ADD_FUNDS")) {
-                    System.out.println("Checking add funds");
                     addFundsHelp(itemList, park);
                 } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
-                    System.out.println("Checking new customer");
                     newCustomerHelp(itemList, park);
                 } else {
                     throw new ActionNotFoundException();
@@ -233,10 +228,8 @@ public class Simulation {
             currentCustomer = park.getCustomer(itemList.get(2));
             currentAttraction = park.getAttraction(itemList.get(3));
             if (currentCustomer == null) {
-                System.out.println("Run code to fix null here");
                 throw new CustomerNotFoundException();
             } else if (currentAttraction == null) {
-                System.out.println("Run code to fix null here (1)");
                 throw new RideNotFoundException();
             }
 
@@ -270,7 +263,6 @@ public class Simulation {
 
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Fix anything not found here");
         }
         //Check for use attraction action
         return totalProfit;
