@@ -5,13 +5,14 @@
  Date        : 20/03/2020
  Description : This is the main class of the project that is used to read in all of the information from the various
  source files and create a new ThemePark that can then be simulated through the tasks in the transactions.txt file.
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,13 +49,13 @@ public class Simulation {
     }
 
     //Method to simulate the actions from transactions.txt
-    public static void simulate(ThemePark park) throws FileNotFoundException, CustomerNotFoundException, AgeRestrictionException {
+    public static void simulate(ThemePark park) throws FileNotFoundException {
         readTransactions(park);
     }
 
     //Method to simplify reading from files
     public static ArrayList<String> readFile(String fileName) throws FileNotFoundException {
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String> lines = new ArrayList<>();
         File file = new File(fileName);
         Scanner line = new Scanner(file);
         line.useDelimiter(System.lineSeparator());
@@ -69,28 +70,31 @@ public class Simulation {
     public static void readAttractions(ThemePark park) throws FileNotFoundException, AttractionNotFoundException {
 
         ArrayList<String> list = readFile("attractions.txt");
-        for (int i = 0; i < list.size(); i++) {
-            String info = list.get(i);
+        for (String info : list) {
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter("@");
-            ArrayList<String> itemList = new ArrayList<String>();
+            ArrayList<String> itemList = new ArrayList<>();
             while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
             }
             try {
-                if (itemList.get(2).equals("ROL")) {
-                    Attraction rol = new RollerCoaster(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
-                    park.addAttraction(rol);
-                } else if (itemList.get(2).equals("GEN")) {
-                    Attraction gen = new GentleAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                    park.addAttraction(gen);
-                } else if (itemList.get(2).equals("TRA")) {
-                    Attraction tra = new TransportAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
-                    park.addAttraction(tra);
-                } else {
-                    System.out.println("Not Found");
-                    throw new InvalidCreationException();
+                switch (itemList.get(2)) {
+                    case "ROL":
+                        Attraction rol = new RollerCoaster(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
+                        park.addAttraction(rol);
+                        break;
+                    case "GEN":
+                        Attraction gen = new GentleAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                        park.addAttraction(gen);
+                        break;
+                    case "TRA":
+                        Attraction tra = new TransportAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                        park.addAttraction(tra);
+                        break;
+                    default:
+                        System.out.println("Not Found");
+                        throw new InvalidCreationException();
 
                 }
             } catch (NumberFormatException | InvalidCreationException e) {
@@ -108,11 +112,10 @@ public class Simulation {
         ArrayList<String> list = readFile("customers.txt");
 
         //Loop through list to get each piece of information
-        for (int i = 0; i < list.size(); i++) {
-            String info = list.get(i);
+        for (String info : list) {
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter("#");
-            ArrayList<String> itemList = new ArrayList<String>();
+            ArrayList<String> itemList = new ArrayList<>();
             while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
@@ -144,7 +147,7 @@ public class Simulation {
 
                 //Catch any information that could not be added to the ThemePark from the file
             } catch (InvalidCreationException e) {
-                System.out.println(e);
+                System.out.println(e.toString());
             }
 
 
@@ -155,11 +158,10 @@ public class Simulation {
     public static void readTransactions(ThemePark park) throws FileNotFoundException, NumberFormatException {
 
         //Variable to store the total profit for the transactions file
-        int totalProfit = 0;
+        int tot = 0;
 
         ArrayList<String> list = readFile("transactions.txt");
-        for (int i = 0; i < list.size(); i++) {
-            String info = list.get(i);
+        for (String info : list) {
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter(",");
             ArrayList<String> itemList = new ArrayList<String>();
@@ -173,22 +175,29 @@ public class Simulation {
             try {
 
                 //Run helper methods to check which action to take and take it
-                if (itemList.get(0).equals("USE_ATTRACTION")) {
-                    int prof = useAttractionHelp(itemList, park, totalProfit);
-                    totalProfit = prof;
-                } else if (itemList.get(0).equals("ADD_FUNDS")) {
-                    addFundsHelp(itemList, park);
-                } else if (itemList.get(0).equals("NEW_CUSTOMER")) {
-                    newCustomerHelp(itemList, park);
-                } else {
-                    throw new ActionNotFoundException();
+                switch (itemList.get(0)) {
+                    case "USE_ATTRACTION":
+                        int prof = useAttractionHelp(itemList, park);
+                        tot = tot + prof;
+                        System.out.println("total = " + tot);
+                        break;
+                    case "ADD_FUNDS":
+                        addFundsHelp(itemList, park);
+                        break;
+                    case "NEW_CUSTOMER":
+                        newCustomerHelp(itemList, park);
+                        break;
+                    default:
+                        throw new ActionNotFoundException();
                 }
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e.toString());
             }
         }
 
-        System.out.println("Total profit for the day : " + totalProfit);
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        String profit = formatter.format(tot / 100);
+        System.out.println("Total profit for the day : £" + profit);
     }
 
     private static void newCustomerHelp(ArrayList<String> itemList, ThemePark park) {
@@ -211,14 +220,15 @@ public class Simulation {
             System.out.println("Amount before adding funds : " + currentCustomer.getAccountBalance());
             currentCustomer.addFunds(amount);
 
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("Failed to find customer to add funds");
+        } catch (CustomerNotFoundException e) {
+            System.out.println(e.toString());
         }
 
     }
 
-    private static int useAttractionHelp(ArrayList<String> itemList, ThemePark park, int totalProfit) {
+    private static int useAttractionHelp(ArrayList<String> itemList, ThemePark park) {
+
+        int tot = 0;
 
         Customer currentCustomer = null;
         Attraction currentAttraction = null;
@@ -241,32 +251,28 @@ public class Simulation {
                     //Check the type of attraction that the customer wishes to use
                     if (currentAttraction.getType().equals("ROL")) {
                         //Perform the action
-                        RollerCoaster rolAttraction = (RollerCoaster) park.getAttraction(itemList.get(3));
-                        currentCustomer.useAttraction(currentAttraction.getBasePrice(), rolAttraction.getMinAge());
-                        totalProfit += currentAttraction.getBasePrice() * currentCustomer.getPersonalDiscount().getDiscountEnum();
+                        RollerCoaster rolAttraction = (RollerCoaster) currentAttraction;
+                        tot = currentCustomer.useAttraction(currentAttraction.getBasePrice(), rolAttraction.getMinAge());
                     } else {
-                        currentCustomer.useAttraction(currentAttraction.getBasePrice());
-                        totalProfit += currentAttraction.getBasePrice() * currentCustomer.getPersonalDiscount().getDiscountEnum();
+                        tot = currentCustomer.useAttraction(currentAttraction.getBasePrice());
                     }
                 } else {
                     if (currentAttraction.getType().equals("ROL")) {
-                        RollerCoaster rolAttraction = (RollerCoaster) park.getAttraction(itemList.get(3));
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), rolAttraction.getMinAge());
-                        totalProfit += (currentAttraction.getOffPeakPrice() * currentCustomer.getPersonalDiscount().getDiscountEnum());
+                        RollerCoaster rolAttraction = (RollerCoaster) currentAttraction;
+                        tot = currentCustomer.useAttraction(currentAttraction.getOffPeakPrice(), rolAttraction.getMinAge());
                     } else {
-                        currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
-                        totalProfit += (currentAttraction.getOffPeakPrice() * currentCustomer.getPersonalDiscount().getDiscountEnum());
+                        tot = currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
                     }
                 }
+                System.out.println(tot);
             }
-            System.out.println("Balance after using attraction : " + currentCustomer.getAccountBalance());
+
+            System.out.println("Current balance : " + currentCustomer.getAccountBalance());
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.toString());
         }
         //Check for use attraction action
-        return totalProfit;
+        return tot;
     }
-
-
 }

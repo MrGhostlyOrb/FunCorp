@@ -7,7 +7,6 @@
  ThemePark and a list of all the customers. It also contains several methods for adding and removing
  attractions/customers from the ThemePark and 3 special methods for calculating the totalTransportDistance,
  averageGentleCapacity and the medianCoasterSpeed.
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -36,9 +35,9 @@ public class ThemePark {
 
     public int calculateTotalTransportDistance() {
         int totalDist = 0;
-        for (int i = 0; i < attractions.size(); i++) {
-            if (attractions.get(i).getType().equals("TRA")) {
-                TransportAttraction attr = (TransportAttraction) attractions.get(i);
+        for (Attraction attraction : attractions) {
+            if (attraction.getType().equals("TRA")) {
+                TransportAttraction attr = (TransportAttraction) attraction;
                 totalDist = totalDist + attr.getDistance();
             }
         }
@@ -48,9 +47,9 @@ public class ThemePark {
     public double calculateAverageGentleCapacity() {
         double totalCapacity = 0;
         int count = 0;
-        for (int i = 0; i < attractions.size(); i++) {
-            if (attractions.get(i).getType().equals("GEN")) {
-                GentleAttraction attr = (GentleAttraction) attractions.get(i);
+        for (Attraction attraction : attractions) {
+            if (attraction.getType().equals("GEN")) {
+                GentleAttraction attr = (GentleAttraction) attraction;
                 totalCapacity = totalCapacity + attr.getNoPeople();
                 count++;
             }
@@ -59,12 +58,12 @@ public class ThemePark {
     }
 
     public double calculateMedianCoasterSpeed() {
-        //Use ArrayList to store    l speeds and then choose middle value to find median
+        //Use ArrayList to store all speeds and then choose middle value to find median
         ArrayList<Double> avgSpeed = new ArrayList<Double>();
         int count = 0;
-        for (int i = 0; i < attractions.size(); i++) {
-            if (attractions.get(i).getType().equals("ROL")) {
-                RollerCoaster attr = (RollerCoaster) attractions.get(i);
+        for (Attraction attraction : attractions) {
+            if (attraction.getType().equals("ROL")) {
+                RollerCoaster attr = (RollerCoaster) attraction;
                 avgSpeed.add(attr.getSpeed());
                 count++;
             }
@@ -84,12 +83,11 @@ public class ThemePark {
 
         Customer foundCustomer = null;
 
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getAccountNumber().equals(accountNumber)) {
-                System.out.println("Found customer : " + customers.get(i).getName());
-                foundCustomer = customers.get(i);
+        for (Customer customer : customers) {
+            if (customer.getAccountNumber().equals(accountNumber)) {
+                System.out.println("Found customer : " + customer.getName());
+                foundCustomer = customer;
                 break;
-            } else if (i == customers.size() - 1) {
             }
         }
         return foundCustomer;
@@ -106,8 +104,7 @@ public class ThemePark {
                     throw new CustomerNotFoundException();
                 }
             } catch (CustomerNotFoundException e) {
-                System.out.println(e);
-                System.out.println("Sorry, customer could not be found");
+                System.out.println(e.toString());
             }
         }
     }
@@ -126,8 +123,7 @@ public class ThemePark {
                     throw new AttractionNotFoundException();
                 }
             } catch (AttractionNotFoundException e) {
-                System.out.println(e);
-                System.out.println("Sorry, attraction could not be found");
+                System.out.println(e.toString());
                 //TODO fix attractions with space at the end not being found
             }
         }
@@ -145,8 +141,7 @@ public class ThemePark {
                     throw new AttractionNotFoundException();
                 }
             } catch (AttractionNotFoundException e) {
-                System.out.println(e);
-                System.out.println("Sorry, attraction could not be found");
+                System.out.println(e.toString());
             }
         }
     }
@@ -165,6 +160,12 @@ public class ThemePark {
 
     public void setCustomers(ArrayList<Customer> customers) {
         this.customers = customers;
+    }
+
+    @Override
+
+    public String toString() {
+        return name + " " + attractions.toString() + customers.toString();
     }
 
     public static void main(String[] args) {

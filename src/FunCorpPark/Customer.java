@@ -7,16 +7,11 @@
  stored consists of: accountNumber, name, age, accountBalance and personalDiscount. This class also includes methods
  for using various attractions, it has been overloaded in order to accommodate for RollerCoasters having a minimum
  age to ride along with several getter and setter methods.
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
 
 public class Customer {
-
-    public void setPersonalDiscount(personalDiscountEnum personalDiscount) {
-        this.personalDiscount = personalDiscount;
-    }
 
     public enum personalDiscountEnum {
         STUDENT(0.9), FAMILY(0.85), NONE(1);
@@ -73,11 +68,7 @@ public class Customer {
     @Override
 
     public String toString() {
-        String accountNumberString = accountNumber;
-        String ageString = Integer.toString(age);
-        String accountBalanceString = Integer.toString(accountBalance);
-        String out = name + " " + accountNumberString + " " + ageString + " " + accountBalanceString + " " + personalDiscount;
-        return out;
+        return name + "#" + accountNumber + "#" + age + "#" + accountBalance + "#" + personalDiscount;
     }
 
     public void addFunds(int amount) {
@@ -85,51 +76,45 @@ public class Customer {
         System.out.println("New balance is : " + accountBalance);
     }
 
-    public void useAttraction(int price) {
+    public int useAttraction(int price) {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
         System.out.println("Price after discount : " + newPrice);
 
         try {
 
-            if (accountBalance < (price * this.personalDiscount.getDiscountEnum())) {
+            if (accountBalance < newPrice) {
                 throw new InsufficientBalanceException();
-            }
-            else{
-                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
+            } else {
+                accountBalance = accountBalance - newPrice;
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
+        return newPrice;
     }
-//ewura adjoa amo
-    //nana adwoa
-    public void useAttraction(int price, int minimumAge) {
+
+    public int useAttraction(int price, int minimumAge) throws AgeRestrictionException, InsufficientBalanceException {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
         System.out.println("Price for ride is : " + newPrice);
         boolean validAge = false;
 
-        try {
-            System.out.println("Checking age");
-            if(this.age >= minimumAge){
-                validAge = true;
-            }
-            else{
-                validAge = false;
-                throw new AgeRestrictionException();
-            }
-            System.out.println("Checking balance");
-            if(this.accountBalance >= price && validAge == true){
-                accountBalance = (int) (accountBalance - (price * this.personalDiscount.getDiscountEnum()));
-            }
-            else{
-                throw new InsufficientBalanceException();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
+        System.out.println("Checking age");
+        if (this.age >= minimumAge) {
+            validAge = true;
+        } else {
+            throw new AgeRestrictionException();
         }
+        System.out.println("Checking balance");
+        if (this.accountBalance >= price && validAge) {
+            accountBalance = (int) (accountBalance - newPrice);
+        } else {
+            throw new InsufficientBalanceException();
+        }
+
+        return newPrice;
     }
 
     public static String getAvailableDiscountInformation() {
@@ -139,10 +124,10 @@ public class Customer {
     }
 
     public static void main(String[] args) {
-        // Customer cus1 = new Customer("John", "1", 21, 0, "none");
-        //cus1.addFunds(10);
-        //System.out.println(cus1.toString());
-        //System.out.println(cus1.getPersonalDiscount());
+        Customer cus1 = new Customer("John", "1", 21, 0, personalDiscountEnum.NONE);
+        cus1.addFunds(10);
+        System.out.println(cus1.toString());
+        System.out.println(cus1.getPersonalDiscount());
     }
 
     public String getAccountNumber() {

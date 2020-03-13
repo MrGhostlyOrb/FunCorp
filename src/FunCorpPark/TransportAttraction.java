@@ -5,7 +5,6 @@
  Date        : 20/03/2020
  Description : This class is designed to store all of the information about a TransportAttraction such as its name,
  basePrice, type and distance. It also includes getters and setters along with an appropriate toString.
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -39,11 +38,6 @@ public class TransportAttraction extends Attraction {
     }
 
     @Override
-    public String toString() {
-        return "Ride : " + name;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -69,6 +63,11 @@ public class TransportAttraction extends Attraction {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return name + "@" + basePrice + "@" + type + "@" + distance;
     }
 
     public static void main(String[] args) {

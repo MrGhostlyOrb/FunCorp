@@ -6,7 +6,6 @@
  Description : This is a class designed to store information about GentleAttractions in the ThemePark. It includes
  information such as: name, basePrice, type, and the noPeople for the attraction along with various getters and setters
  and an appropriate toString.
-
  **********************************************************************************************************************/
 
 package FunCorpPark;
@@ -39,11 +38,6 @@ public class GentleAttraction extends Attraction {
     }
 
     @Override
-    public String toString() {
-        return "Ride : " + name;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -69,6 +63,12 @@ public class GentleAttraction extends Attraction {
 
     public void setNoPeople(int noPeople) {
         this.noPeople = noPeople;
+    }
+
+    @Override
+
+    public String toString() {
+        return name + "@" + basePrice + "@" + type + "@" + noPeople;
     }
 
     public static void main(String[] args) {
