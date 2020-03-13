@@ -170,7 +170,7 @@ public class Simulation {
                 itemList.add(item);
             }
             //Print out the action about to be taken
-            System.out.println(itemList.get(0));
+            System.out.println("\n" + itemList.get(0));
 
             try {
 
@@ -202,14 +202,16 @@ public class Simulation {
 
     private static void newCustomerHelp(ArrayList<String> itemList, ThemePark park) {
         if (itemList.size() > 5) {
-            park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
+            park.addCustomer(new Customer(itemList.get(2), itemList.get(1), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
         } else {
-            park.addCustomer(new Customer(itemList.get(1), itemList.get(2), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
+            park.addCustomer(new Customer(itemList.get(2), itemList.get(1), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.NONE));
         }
+        System.out.print(itemList.get(2));
     }
 
     private static void addFundsHelp(ArrayList<String> itemList, ThemePark park) {
         Customer currentCustomer = null;
+
         try {
             currentCustomer = park.getCustomer(itemList.get(1));
             if (currentCustomer == null) {

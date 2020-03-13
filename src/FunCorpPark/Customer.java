@@ -76,21 +76,15 @@ public class Customer {
         System.out.println("New balance is : " + accountBalance);
     }
 
-    public int useAttraction(int price) {
+    public int useAttraction(int price) throws InsufficientBalanceException {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
         System.out.println("Price after discount : " + newPrice);
 
-        try {
-
-            if (accountBalance < newPrice) {
-                throw new InsufficientBalanceException();
-            } else {
-                accountBalance = accountBalance - newPrice;
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
+        if (accountBalance < newPrice) {
+            throw new InsufficientBalanceException();
+        } else {
+            accountBalance = accountBalance - newPrice;
         }
         return newPrice;
     }

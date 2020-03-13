@@ -124,7 +124,6 @@ public class ThemePark {
                 }
             } catch (AttractionNotFoundException e) {
                 System.out.println(e.toString());
-                //TODO fix attractions with space at the end not being found
             }
         }
         return foundAttraction;
