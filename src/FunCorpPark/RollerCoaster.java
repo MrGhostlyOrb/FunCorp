@@ -9,20 +9,17 @@
 package FunCorpPark;
 
 public class RollerCoaster extends Attraction {
-    private String name;
-    private int basePrice;
-    private String type;
     private int minAge;
     private double speed;
 
+    //Constructor for the RollerCoaster class that inherits from the super Attraction class
     public RollerCoaster(String name, int basePrice, String type, int minAge, double topSpeed) {
-        this.name = name;
-        this.basePrice = basePrice;
-        this.type = type;
+        super(name, basePrice, type);
         this.minAge = minAge;
         this.speed = topSpeed;
     }
 
+    //Getter and setter methods
     public String getName() {
         return this.name;
     }
@@ -35,6 +32,7 @@ public class RollerCoaster extends Attraction {
         return this.speed;
     }
 
+    //Method inherited from the Attraction class to get the off peak price
     @Override
     public int getOffPeakPrice() {
         return this.basePrice;
@@ -68,6 +66,7 @@ public class RollerCoaster extends Attraction {
         return minAge;
     }
 
+    //Test harness for the RollerCoaster class
     public static void main(String[] args) {
         RollerCoaster rol1 = new RollerCoaster("Rol1", 100, "ROL", 12, 12.3);
         System.out.println(rol1.toString());

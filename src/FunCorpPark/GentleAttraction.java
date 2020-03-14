@@ -12,18 +12,15 @@ package FunCorpPark;
 
 public class GentleAttraction extends Attraction {
 
-    private String name;
-    private int basePrice;
-    private String type;
     private int noPeople;
 
+    //Constructor for the GentleAttraction class that inherits from the super Attraction class
     public GentleAttraction(String name, int basePrice, String type, int noPeople) {
-        this.name = name;
-        this.basePrice = basePrice;
-        this.type = type;
+        super(name, basePrice, type);
         this.noPeople = noPeople;
     }
 
+    //Getter and setter methods
     public int getNoPeople() {
         return this.noPeople;
     }
@@ -71,6 +68,7 @@ public class GentleAttraction extends Attraction {
         return name + "@" + basePrice + "@" + type + "@" + noPeople;
     }
 
+    //Test harness for the GentleAttraction class
     public static void main(String[] args) {
         GentleAttraction att = new GentleAttraction("Gentle", 5, "GEN", 100);
         System.out.println(att.getNoPeople());

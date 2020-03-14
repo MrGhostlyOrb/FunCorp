@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class Simulation {
 
     //Main method to being program
-    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException, CustomerNotFoundException, NoSuchFieldException, RideNotFoundException, AgeRestrictionException {
+    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException {
 
         ThemePark park = createThemePark();
 
@@ -67,7 +67,7 @@ public class Simulation {
     }
 
     //Method to read information from attractions.txt and add to ThemePark
-    public static void readAttractions(ThemePark park) throws FileNotFoundException, AttractionNotFoundException {
+    public static void readAttractions(ThemePark park) throws FileNotFoundException {
 
         ArrayList<String> list = readFile("attractions.txt");
         for (String info : list) {
@@ -79,6 +79,7 @@ public class Simulation {
                 itemList.add(item);
             }
             try {
+                //Check the type of the attraction to be added to the park
                 switch (itemList.get(2)) {
                     case "ROL":
                         Attraction rol = new RollerCoaster(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
@@ -179,7 +180,6 @@ public class Simulation {
                     case "USE_ATTRACTION":
                         int prof = useAttractionHelp(itemList, park);
                         tot = tot + prof;
-                        System.out.println("total = " + tot);
                         break;
                     case "ADD_FUNDS":
                         addFundsHelp(itemList, park);
@@ -195,11 +195,14 @@ public class Simulation {
             }
         }
 
-        NumberFormat formatter = new DecimalFormat("#0.00");
+        //Format profit into a nice number
+        NumberFormat formatter = new DecimalFormat("#000.00");
+        System.out.println("Total was : " + tot + "p");
         String profit = formatter.format(tot / 100);
         System.out.println("Total profit for the day : £" + profit);
     }
 
+    //Helper method to deal with new customers being added to the park
     private static void newCustomerHelp(ArrayList<String> itemList, ThemePark park) {
         if (itemList.size() > 5) {
             park.addCustomer(new Customer(itemList.get(2), itemList.get(1), Integer.parseInt(itemList.get(3)), Integer.parseInt(itemList.get(4)), Customer.personalDiscountEnum.valueOf(itemList.get(5))));
@@ -209,9 +212,11 @@ public class Simulation {
         System.out.print(itemList.get(2));
     }
 
+    //Helper method to help with adding funds to a customer's account balance
     private static void addFundsHelp(ArrayList<String> itemList, ThemePark park) {
         Customer currentCustomer = null;
 
+        //Try to add the funds to the account, catch a customer not found exception
         try {
             currentCustomer = park.getCustomer(itemList.get(1));
             if (currentCustomer == null) {
@@ -228,6 +233,7 @@ public class Simulation {
 
     }
 
+    //Method to help using attractions
     private static int useAttractionHelp(ArrayList<String> itemList, ThemePark park) {
 
         int tot = 0;
@@ -242,11 +248,13 @@ public class Simulation {
             if (currentCustomer == null) {
                 throw new CustomerNotFoundException();
             } else if (currentAttraction == null) {
-                throw new RideNotFoundException();
+                throw new AttractionNotFoundException();
             }
 
+            //Print the customer's balance before using the attraction
             System.out.println("Balance before using attraction : " + currentCustomer.getAccountBalance());
 
+            //Check what attraction type the user is trying to use and the price
             if (itemList.get(0).equals("USE_ATTRACTION")) {
                 //Check the price for the attraction
                 if (itemList.get(1).equals("STANDARD_PRICE")) {
@@ -266,7 +274,6 @@ public class Simulation {
                         tot = currentCustomer.useAttraction(currentAttraction.getOffPeakPrice());
                     }
                 }
-                System.out.println(tot);
             }
 
             System.out.println("Current balance : " + currentCustomer.getAccountBalance());

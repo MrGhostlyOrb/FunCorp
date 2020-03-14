@@ -19,6 +19,7 @@ public class ThemePark {
     private ArrayList<Attraction> attractions;
     private ArrayList<Customer> customers;
 
+    //Default constructor for the ThemePark class
     public ThemePark() {
         this.attractions = new ArrayList<Attraction>();
         this.customers = new ArrayList<Customer>();
@@ -33,9 +34,12 @@ public class ThemePark {
         return this.attractions;
     }
 
+    //Method to calculate the total distance the transport rides will travel
     public int calculateTotalTransportDistance() {
         int totalDist = 0;
         for (Attraction attraction : attractions) {
+            System.out.println(attractions);
+            System.out.println(attraction.getType());
             if (attraction.getType().equals("TRA")) {
                 TransportAttraction attr = (TransportAttraction) attraction;
                 totalDist = totalDist + attr.getDistance();
@@ -44,6 +48,7 @@ public class ThemePark {
         return totalDist;
     }
 
+    //Method to calculate the average capacity of all the gentle attractions
     public double calculateAverageGentleCapacity() {
         double totalCapacity = 0;
         int count = 0;
@@ -57,6 +62,7 @@ public class ThemePark {
         return totalCapacity / count;
     }
 
+    //Method to calculate the median speed for all of the rollercoasters in the park
     public double calculateMedianCoasterSpeed() {
         //Use ArrayList to store all speeds and then choose middle value to find median
         ArrayList<Double> avgSpeed = new ArrayList<Double>();
@@ -79,6 +85,7 @@ public class ThemePark {
         this.customers.add(newCustomer);
     }
 
+    //Method to find a particular customer in the park
     public Customer getCustomer(String accountNumber) {
 
         Customer foundCustomer = null;
@@ -93,6 +100,7 @@ public class ThemePark {
         return foundCustomer;
     }
 
+    //Method to remove a particular customer from a park
     public void removeCustomer(String accountNumber) {
 
         for (int i = 0; i < customers.size(); i++) {
@@ -109,6 +117,7 @@ public class ThemePark {
         }
     }
 
+    //Method to get a particular attraction from a park
     public Attraction getAttraction(String attractionName) {
         Attraction foundAttraction = null;
 
@@ -129,6 +138,7 @@ public class ThemePark {
         return foundAttraction;
     }
 
+    //Method to remove a particular attraction from a park
     public void removeAttraction(String attractionName) {
 
         for (int i = 0; i < attractions.size(); i++) {
@@ -153,20 +163,13 @@ public class ThemePark {
         this.name = name;
     }
 
-    public void setAttractions(ArrayList<Attraction> attractions) {
-        this.attractions = attractions;
-    }
-
-    public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
-    }
-
     @Override
 
     public String toString() {
         return name + " " + attractions.toString() + customers.toString();
     }
 
+    //Test harness for the ThemePark class to test methods
     public static void main(String[] args) {
         ThemePark park = new ThemePark();
 

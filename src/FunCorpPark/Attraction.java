@@ -12,10 +12,18 @@ package FunCorpPark;
 
 public abstract class Attraction {
 
-    private String name;
-    private int basePrice;
-    private String type;
+    protected String name;
+    protected int basePrice;
+    protected String type;
 
+    //Constructor for the super attraction class
+    public Attraction(String name, int basePrice, String type){
+        this.name = name;
+        this.basePrice = basePrice;
+        this.type = type;
+    }
+
+    //Abstract method to return the off peak price for a particular attraction
     public abstract int getOffPeakPrice();
 
     public String getName() {
@@ -51,15 +59,5 @@ public abstract class Attraction {
 
     public static void main(String[] args) {
         System.out.println("This is a test");
-
-        Attraction att = new Attraction() {
-            @Override
-            public int getOffPeakPrice() {
-                return 0;
-            }
-        };
-        System.out.println(att.getBasePrice());
-        System.out.println(att.getType());
-        System.out.println(att.getName());
     }
 }

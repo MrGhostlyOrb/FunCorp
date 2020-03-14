@@ -11,19 +11,16 @@ package FunCorpPark;
 
 public class TransportAttraction extends Attraction {
 
-    private String name;
-    private int basePrice;
-    private String type;
     private int distance;
 
+    //Constructor for the TransportAttraction class that inherits from the super Attraction class
     public TransportAttraction(String name, int basePrice, String type, int distance) {
-        this.name = name;
-        this.basePrice = basePrice;
-        this.type = type;
+        super(name, basePrice, type);
         this.distance = distance;
 
     }
 
+    //Getter and setter methods
     public int getDistance() {
         return distance;
     }
@@ -32,6 +29,7 @@ public class TransportAttraction extends Attraction {
         return this.type;
     }
 
+    //Method inherited from the Attraction class
     @Override
     public int getOffPeakPrice() {
         return (int) (basePrice * 0.5);
@@ -70,6 +68,7 @@ public class TransportAttraction extends Attraction {
         return name + "@" + basePrice + "@" + type + "@" + distance;
     }
 
+    //Test harness for the TransportAttraction class
     public static void main(String[] args) {
         TransportAttraction att = new TransportAttraction("Transport", 5, "TRA", 100);
         System.out.println(att.getDistance());
