@@ -74,6 +74,7 @@ public class ThemePark {
                 count++;
             }
         }
+        //TODO check if the arraylist has an even amount of things and sort
         return avgSpeed.get(count / 2);
     }
 
