@@ -12,6 +12,7 @@
 package FunCorpPark;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ThemePark {
 
@@ -38,8 +39,6 @@ public class ThemePark {
     public int calculateTotalTransportDistance() {
         int totalDist = 0;
         for (Attraction attraction : attractions) {
-            System.out.println(attractions);
-            System.out.println(attraction.getType());
             if (attraction.getType().equals("TRA")) {
                 TransportAttraction attr = (TransportAttraction) attraction;
                 totalDist = totalDist + attr.getDistance();
@@ -74,8 +73,17 @@ public class ThemePark {
                 count++;
             }
         }
-        //TODO check if the arraylist has an even amount of things and sort
-        return avgSpeed.get(count / 2);
+        Collections.sort(avgSpeed);
+        //Determine whether list is odd or even in length and then work out median
+        if(avgSpeed.size() % 2 == 0){
+            double sp1 = avgSpeed.get(avgSpeed.size()/2);
+            double sp2 = avgSpeed.get((avgSpeed.size()/2)+1);
+            double sp3 = (sp1 + sp2)/2;
+            return sp3;
+        }
+        else{
+            return avgSpeed.get(count/2);
+        }
     }
 
     public void addAttraction(Attraction newAttraction) {
@@ -182,11 +190,18 @@ public class ThemePark {
         Attraction rol = new RollerCoaster("roller coaster ", 12, "ROL", 7, 12.1);
         park.addAttraction(rol);
 
-        Attraction rol2 = new RollerCoaster("roller coaster2", 12, "ROL", 7, 12.1);
-        park.addAttraction(rol);
+        Attraction rol2 = new RollerCoaster("roller coaster2", 12, "ROL", 7, 450.5);
+        Attraction rol3 = new RollerCoaster("roller coaster3", 12, "ROL", 7, 501.6);
+        Attraction rol4 = new RollerCoaster("roller coaster4", 12, "ROL", 7, 100.10);
+        park.addAttraction(rol2);
+        park.addAttraction(rol3);
+        park.addAttraction(rol4);
 
-        System.out.println(rol.toString() + rol2.toString());
-        System.out.println(rol.getName().trim());
+
+        System.out.println(park.calculateMedianCoasterSpeed());
+
+       // System.out.println(rol.toString() + rol2.toString());
+        //System.out.println(rol.getName().trim());
         System.out.println(rol2.getName().trim());
     }
 

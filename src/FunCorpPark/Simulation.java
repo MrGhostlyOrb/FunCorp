@@ -24,9 +24,9 @@ public class Simulation {
         ThemePark park = createThemePark();
 
         //Run 3 methods from ThemePark to return Total Distance, Capacity and Top Speed
-        System.out.println("Total Distance : " + park.calculateTotalTransportDistance());
-        System.out.println("Average Capacity : " + park.calculateAverageGentleCapacity());
-        System.out.println("Median Speed : " + park.calculateMedianCoasterSpeed());
+        System.out.println("Total Distance : " + park.calculateTotalTransportDistance() + "m");
+        System.out.println("Average Capacity : " + park.calculateAverageGentleCapacity() + " people");
+        System.out.println("Median Speed : " + park.calculateMedianCoasterSpeed() + " mph");
 
         simulate(park);
 
@@ -150,7 +150,6 @@ public class Simulation {
             } catch (InvalidCreationException e) {
                 System.out.println(e.toString());
             }
-
 
         }
     }
