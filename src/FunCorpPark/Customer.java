@@ -110,17 +110,14 @@ public class Customer {
 
         int newPrice = (int) (price * this.getPersonalDiscount().getDiscountEnum());
         System.out.println("Price for ride is : " + newPrice);
-        boolean validAge = false;
 
         System.out.println("Checking age");
-        if (this.age >= minimumAge) {
-            validAge = true;
-        } else {
+        if (this.age < minimumAge) {
             throw new AgeRestrictionException();
         }
         System.out.println("Checking balance");
 
-        if (this.accountBalance >= price && validAge) {
+        if (this.accountBalance >= price) {
             accountBalance = accountBalance - newPrice;
         } else {
             throw new InsufficientBalanceException();
