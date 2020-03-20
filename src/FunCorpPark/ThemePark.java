@@ -22,8 +22,8 @@ public class ThemePark {
 
     //Default constructor for the ThemePark class
     public ThemePark() {
-        this.attractions = new ArrayList<Attraction>();
-        this.customers = new ArrayList<Customer>();
+        this.attractions = new ArrayList<>();
+        this.customers = new ArrayList<>();
         this.name = "";
     }
 
@@ -64,7 +64,7 @@ public class ThemePark {
     //Method to calculate the median speed for all of the rollercoasters in the park
     public double calculateMedianCoasterSpeed() {
         //Use ArrayList to store all speeds and then choose middle value to find median
-        ArrayList<Double> avgSpeed = new ArrayList<Double>();
+        ArrayList<Double> avgSpeed = new ArrayList<>();
         int count = 0;
         for (Attraction attraction : attractions) {
             if (attraction.getType().equals("ROL")) {
@@ -76,10 +76,11 @@ public class ThemePark {
         Collections.sort(avgSpeed);
         //Determine whether list is odd or even in length and then work out median
         if(avgSpeed.size() % 2 == 0){
+
+            //Average the two middle speeds
             double sp1 = avgSpeed.get(avgSpeed.size()/2);
             double sp2 = avgSpeed.get((avgSpeed.size()/2)+1);
-            double sp3 = (sp1 + sp2)/2;
-            return sp3;
+            return (sp1 + sp2)/2;
         }
         else{
             return avgSpeed.get(count/2);

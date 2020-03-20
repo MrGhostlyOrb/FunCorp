@@ -101,6 +101,7 @@ public class Customer {
         } else {
             accountBalance = accountBalance - newPrice;
         }
+
         return newPrice;
     }
 
@@ -118,8 +119,9 @@ public class Customer {
             throw new AgeRestrictionException();
         }
         System.out.println("Checking balance");
+
         if (this.accountBalance >= price && validAge) {
-            accountBalance = (int) (accountBalance - newPrice);
+            accountBalance = accountBalance - newPrice;
         } else {
             throw new InsufficientBalanceException();
         }

@@ -19,21 +19,24 @@ import java.util.Scanner;
 public class Simulation {
 
     //Main method to being program
-    public static void main(String[] args) throws FileNotFoundException, AttractionNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException {
 
+        //Run createThemePark method
         ThemePark park = createThemePark();
 
         //Run 3 methods from ThemePark to return Total Distance, Capacity and Top Speed
+        System.out.println("Results of calculation methods : ");
         System.out.println("Total Distance : " + park.calculateTotalTransportDistance() + "m");
         System.out.println("Average Capacity : " + park.calculateAverageGentleCapacity() + " people");
         System.out.println("Median Speed : " + park.calculateMedianCoasterSpeed() + " mph");
 
+        //Run method to start the transactions.txt file
         simulate(park);
 
     }
 
     //Method to create a ThemePark by reading in information from customers.txt and attractions.txt
-    public static ThemePark createThemePark() throws FileNotFoundException, AttractionNotFoundException {
+    public static ThemePark createThemePark() throws FileNotFoundException {
 
 
         ThemePark park = new ThemePark();
@@ -41,8 +44,8 @@ public class Simulation {
         readAttractions(park);
         readCustomers(park);
 
-        System.out.println("Theme Park Created");
-        System.out.println("Simulation about to begin");
+        System.out.println("\n" + "Theme Park Created");
+        System.out.println("Simulation about to begin" + "\n");
 
 
         return park;
@@ -83,14 +86,17 @@ public class Simulation {
                 switch (itemList.get(2)) {
                     case "ROL":
                         Attraction rol = new RollerCoaster(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)), Double.parseDouble(itemList.get(4)));
+                        System.out.println("Added " + rol);
                         park.addAttraction(rol);
                         break;
                     case "GEN":
                         Attraction gen = new GentleAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                        System.out.println("Added " + gen);
                         park.addAttraction(gen);
                         break;
                     case "TRA":
                         Attraction tra = new TransportAttraction(itemList.get(0).trim(), Integer.parseInt(itemList.get(1)), itemList.get(2), Integer.parseInt(itemList.get(3)));
+                        System.out.println("Added " + tra);
                         park.addAttraction(tra);
                         break;
                     default:
@@ -133,8 +139,6 @@ public class Simulation {
                     System.out.println("Added " + none.toString());
                     park.addCustomer(none);
                 } else if (itemList.get(4).trim().equals("FAMILY")) {
-
-
                     Customer fam = new Customer(itemList.get(1), itemList.get(0), Integer.parseInt(itemList.get(2)), Integer.parseInt(itemList.get(3)), Customer.personalDiscountEnum.valueOf(itemList.get(4).toUpperCase().trim()));
                     System.out.println("Added " + fam.toString());
                     park.addCustomer(fam);
@@ -150,7 +154,6 @@ public class Simulation {
             } catch (InvalidCreationException e) {
                 System.out.println(e.toString());
             }
-
         }
     }
 
@@ -164,13 +167,13 @@ public class Simulation {
         for (String info : list) {
             Scanner scanner = new Scanner(info);
             scanner.useDelimiter(",");
-            ArrayList<String> itemList = new ArrayList<String>();
+            ArrayList<String> itemList = new ArrayList<>();
             while (scanner.hasNext()) {
                 String item = scanner.next();
                 itemList.add(item);
             }
             //Print out the action about to be taken
-            System.out.println("\n" + itemList.get(0));
+            System.out.println("\n" + "Action : " + itemList.get(0));
 
             try {
 
@@ -196,9 +199,9 @@ public class Simulation {
 
         //Format profit into a nice number
         NumberFormat formatter = new DecimalFormat("#000.00");
-        System.out.println("Total was : " + tot + "p");
+        System.out.println("\n" + "Total for the day in pence is : " + tot + "p");
         String profit = formatter.format(tot / 100);
-        System.out.println("Total profit for the day : £" + profit);
+        System.out.println("Total profit for the day in pounds is: £" + profit);
     }
 
     //Helper method to deal with new customers being added to the park
@@ -213,7 +216,7 @@ public class Simulation {
 
     //Helper method to help with adding funds to a customer's account balance
     private static void addFundsHelp(ArrayList<String> itemList, ThemePark park) {
-        Customer currentCustomer = null;
+        Customer currentCustomer;
 
         //Try to add the funds to the account, catch a customer not found exception
         try {
@@ -237,8 +240,8 @@ public class Simulation {
 
         int tot = 0;
 
-        Customer currentCustomer = null;
-        Attraction currentAttraction = null;
+        Customer currentCustomer;
+        Attraction currentAttraction;
 
         //Find the customer and attraction from the file
         try {
@@ -275,12 +278,14 @@ public class Simulation {
                 }
             }
 
+            //Print the current balance for the customer after any transaction have or have not taken place
             System.out.println("Current balance : " + currentCustomer.getAccountBalance());
 
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        //Check for use attraction action
+
+        //Return the total profit for the transactions
         return tot;
     }
 }
